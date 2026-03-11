@@ -1,3 +1,6 @@
+"use client";
+
+import { useState } from "react";
 import type { EstimateResult } from "@/lib/types";
 
 /** 結果表示用に一時保存した画像（base64） */
@@ -89,6 +92,48 @@ export function ResultCard({ result, images }: ResultCardProps) {
   const v = vehicleEstimate;
   const kGood = katixPrediction.goodCondition;
   const kUsed = katixPrediction.usedCondition;
+  const [copyStatus, setCopyStatus] = useState<"idle" | "ok" | "error">("idle");
+
+  const buildMemoText = (): string => {
+    const upsideText =
+      priceFactors.upside.length > 0 ? priceFactors.upside.join(" / ") : "なし";
+    const downsideText =
+      priceFactors.downside.length > 0 ? priceFactors.downside.join(" / ") : "なし";
+
+    return [
+      "【KATIX相場予想メモ】",
+      `車種: ${`${v.make} ${v.model}`.trim() || v.model || "不明"}`,
+      `世代（型式）: ${v.generation || "不明"}`,
+      `年式推定: ${v.yearEstimate || "不明"}`,
+      `走行距離: ${v.mileage || "不明"}`,
+      `グレード推定: ${v.gradeEstimate || "不明"}`,
+      `業者オークション評点: ${v.conditionScore || "不明"}`,
+      "",
+      "■ KATIX相場予想",
+      `美車: ${kGood.rangeMinMan}〜${kGood.rangeMaxMan}万円（最低保証 ${kGood.guaranteeMan}万円）`,
+      `使用感あり: ${kUsed.rangeMinMan}〜${kUsed.rangeMaxMan}万円（最低保証 ${kUsed.guaranteeMan}万円）`,
+      "",
+      `参考オークション相場: ${auctionMarket.rangeMinMan}〜${auctionMarket.rangeMaxMan}万円`,
+      `上振れ要因: ${upsideText}`,
+      `下振れ要因: ${downsideText}`,
+      "",
+      `コメント: ${comment || "なし"}`,
+    ].join("\n");
+  };
+
+  const handleCopyMemo = async (): Promise<void> => {
+    const memo = buildMemoText();
+    try {
+      await navigator.clipboard.writeText(memo);
+      setCopyStatus("ok");
+    } catch {
+      setCopyStatus("error");
+    }
+
+    window.setTimeout(() => {
+      setCopyStatus("idle");
+    }, 2200);
+  };
 
   return (
     <div className="space-y-6">
@@ -131,14 +176,33 @@ export function ResultCard({ result, images }: ResultCardProps) {
 
       {/* KATIX 相場予想：落札予想を主役に */}
       <section className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-katix-light to-white p-6 shadow-card ring-1 ring-katix/10 sm:p-8">
-        <div className="mb-5 flex items-center gap-2">
-          <span className="inline-flex items-center rounded-full bg-katix/15 px-2.5 py-0.5 text-xs font-semibold text-katix-dark">
-            KATIX
-          </span>
-          <h2 className="text-lg font-bold tracking-tight text-gray-900">
-            相場予想
-          </h2>
+        <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
+          <div className="flex items-center gap-2">
+            <span className="inline-flex items-center rounded-full bg-katix/15 px-2.5 py-0.5 text-xs font-semibold text-katix-dark">
+              KATIX
+            </span>
+            <h2 className="text-lg font-bold tracking-tight text-gray-900">
+              相場予想
+            </h2>
+          </div>
+          <button
+            type="button"
+            onClick={handleCopyMemo}
+            className="rounded-lg bg-katix px-3 py-1.5 text-xs font-semibold text-white transition hover:bg-katix-dark"
+          >
+            相場結果をコピー
+          </button>
         </div>
+        {copyStatus === "ok" && (
+          <p className="mb-3 text-xs font-medium text-katix-dark">
+            コピーしました。内部メモにそのまま貼り付けできます。
+          </p>
+        )}
+        {copyStatus === "error" && (
+          <p className="mb-3 text-xs font-medium text-red-600">
+            コピーに失敗しました。ブラウザの権限をご確認ください。
+          </p>
+        )}
         <div className="grid gap-5 sm:grid-cols-2 sm:gap-6">
           <KatixPriceCard
             label="美車（評価4〜4.5）"
