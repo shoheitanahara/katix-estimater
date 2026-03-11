@@ -15,17 +15,19 @@ function getOpenAIClient(): OpenAI {
  * 車体画像・メーター画像と付帯情報から査定JSONを取得
  * @param exteriorImageBase64 - 車体写真（base64）
  * @param meterImageBase64 - メーター写真（base64）
+ * @param grade - グレード情報（任意）
  * @param vin - 車台番号（任意）
  * @param memo - メモ（任意）
  */
 export async function getEstimateFromOpenAI(
   exteriorImageBase64: string,
   meterImageBase64: string,
+  grade: string | null,
   vin: string | null,
   memo: string | null
 ): Promise<EstimateResult> {
   const openai = getOpenAIClient();
-  const userText = buildUserMessage(vin, memo);
+  const userText = buildUserMessage(grade, vin, memo);
 
   // 最新系モデルは Responses API で利用するのが公式推奨
   let response: unknown;

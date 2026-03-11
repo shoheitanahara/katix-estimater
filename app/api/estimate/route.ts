@@ -15,6 +15,7 @@ export async function POST(request: Request) {
     const formData = await request.formData();
     const exteriorFile = formData.get("exteriorImage") as File | null;
     const meterFile = formData.get("meterImage") as File | null;
+    const grade = (formData.get("grade") as string | null)?.trim() ?? null;
     const vin = (formData.get("vin") as string | null)?.trim() ?? null;
     const memo = (formData.get("memo") as string | null)?.trim() ?? null;
 
@@ -55,6 +56,7 @@ export async function POST(request: Request) {
     const result = await getEstimateFromOpenAI(
       exteriorBase64,
       meterBase64,
+      grade || null,
       vin || null,
       memo || null
     );

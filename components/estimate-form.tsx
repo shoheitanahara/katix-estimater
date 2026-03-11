@@ -9,6 +9,7 @@ export function EstimateForm() {
   const router = useRouter();
   const [exteriorFile, setExteriorFile] = useState<File | null>(null);
   const [meterFile, setMeterFile] = useState<File | null>(null);
+  const [grade, setGrade] = useState("");
   const [vin, setVin] = useState("");
   const [memo, setMemo] = useState("");
   const [loading, setLoading] = useState(false);
@@ -84,6 +85,7 @@ export function EstimateForm() {
       const formData = new FormData();
       formData.set("exteriorImage", optimizedExterior);
       formData.set("meterImage", optimizedMeter);
+      formData.set("grade", grade);
       formData.set("vin", vin);
       formData.set("memo", memo);
 
@@ -142,6 +144,24 @@ export function EstimateForm() {
         value={meterFile}
         onChange={setMeterFile}
       />
+
+      <div>
+        <label htmlFor="grade" className="block text-sm font-medium text-gray-700">
+          グレード（任意）
+        </label>
+        <input
+          id="grade"
+          type="text"
+          name="grade"
+          value={grade}
+          onChange={(e) => setGrade(e.target.value)}
+          placeholder="例: AMGライン / M Sport / S line"
+          className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-katix focus:outline-none focus:ring-1 focus:ring-katix"
+        />
+        <p className="mt-1 text-xs text-gray-500">
+          外車はグレード差で相場が大きく変わるため、分かる場合は入力を推奨します。入力がない場合は保守的な相場になります。
+        </p>
+      </div>
 
       <div>
         <label htmlFor="vin" className="block text-sm font-medium text-gray-700">
