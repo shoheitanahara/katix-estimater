@@ -44,4 +44,5 @@ npm run dev
 
 ## デプロイ（Vercel）
 
-リポジトリを Vercel に連携し、環境変数 `OPENAI_API_KEY` を設定してデプロイしてください。
+1. リポジトリを Vercel に連携し、環境変数 `OPENAI_API_KEY` を設定してデプロイしてください。
+2. **Output Directory エラーが出る場合**: Vercel の Project Settings → General → **Build & Development Settings** で **Output Directory** が `public` などになっていたら**空にしてください**。Next.js はビルド結果を `.next` に出力するため、Output Directory の指定は不要です（`vercel.json` で `framework: "nextjs"` を指定済みです）。
