@@ -10,6 +10,8 @@ export interface VehicleEstimate {
   mileage: string;
   gradeEstimate: string;
   bodyColor: string;
+  /** 業者オークション基準の評点（6点満点）。例: "4.0" / "3.5〜4.0" */
+  conditionScore: string;
   condition: string;
 }
 

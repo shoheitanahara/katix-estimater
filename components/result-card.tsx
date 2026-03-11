@@ -124,6 +124,7 @@ export function ResultCard({ result, images }: ResultCardProps) {
           <DlRow label="走行距離" value={v.mileage} />
           <DlRow label="グレード推定" value={v.gradeEstimate} />
           <DlRow label="ボディカラー" value={v.bodyColor} />
+          <DlRow label="業者オークション評点（6点満点）" value={v.conditionScore} />
           <DlRow label="状態評価" value={v.condition} />
         </dl>
       </Section>

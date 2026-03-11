@@ -27,45 +27,81 @@ export async function getEstimateFromOpenAI(
   const openai = getOpenAIClient();
   const userText = buildUserMessage(vin, memo);
 
-  const response = await openai.chat.completions.create({
-    model: "gpt-4o",
-    max_tokens: 2000,
-    messages: [
-      { role: "system", content: ESTIMATE_SYSTEM_PROMPT },
-      {
-        role: "user",
-        content: [
-          {
-            type: "text",
-            text: userText,
-          },
-          {
-            type: "image_url",
-            image_url: {
-              url: `data:image/jpeg;base64,${exteriorImageBase64}`,
+  // 最新系モデルは Responses API で利用するのが公式推奨
+  let response: unknown;
+  try {
+    response = await openai.responses.create({
+      model: "gpt-5.4",
+      temperature: 0.2, // 車種同定のばらつきを抑える（0に近いほど一貫）
+      max_output_tokens: 2000,
+      input: [
+        {
+          role: "system",
+          content: [{ type: "input_text", text: ESTIMATE_SYSTEM_PROMPT }],
+        },
+        {
+          role: "user",
+          content: [
+            { type: "input_text", text: userText },
+            {
+              type: "input_image",
+              image_url: `data:image/jpeg;base64,${exteriorImageBase64}`,
               detail: "high",
             },
-          },
-          {
-            type: "image_url",
-            image_url: {
-              url: `data:image/jpeg;base64,${meterImageBase64}`,
+            {
+              type: "input_image",
+              image_url: `data:image/jpeg;base64,${meterImageBase64}`,
               detail: "high",
             },
-          },
-        ],
-      },
-    ],
-    response_format: { type: "json_object" },
-  });
+          ],
+        },
+      ],
+    });
+  } catch (error) {
+    const message = error instanceof Error ? error.message : String(error);
+    if (message.includes("model") || message.includes("gpt-5.4")) {
+      throw new Error(
+        "gpt-5.4 の利用に失敗しました。APIアカウントのモデルアクセス権限を確認してください。"
+      );
+    }
+    throw error;
+  }
 
-  const content = response.choices[0]?.message?.content;
+  const content = extractResponseText(response);
   if (!content) {
     throw new Error("OpenAI returned empty content");
   }
 
   const parsed = parseAndValidateEstimateResult(content);
   return parsed;
+}
+
+/**
+ * Responses API の戻り値からテキストを取り出す
+ */
+function extractResponseText(response: unknown): string | null {
+  const r = response as {
+    output_text?: string;
+    output?: Array<{
+      type?: string;
+      content?: Array<{ type?: string; text?: string }>;
+    }>;
+  };
+
+  if (typeof r.output_text === "string" && r.output_text.trim()) {
+    return r.output_text;
+  }
+
+  const chunks: string[] = [];
+  for (const item of r.output ?? []) {
+    if (item.type !== "message") continue;
+    for (const contentItem of item.content ?? []) {
+      if (contentItem.type === "output_text" && typeof contentItem.text === "string") {
+        chunks.push(contentItem.text);
+      }
+    }
+  }
+  return chunks.length > 0 ? chunks.join("\n").trim() : null;
 }
 
 /**
@@ -124,6 +160,7 @@ function parseAndValidateEstimateResult(raw: string): EstimateResult {
       mileage: ensureString(vehicleEstimate.mileage, ""),
       gradeEstimate: ensureString(vehicleEstimate.gradeEstimate, ""),
       bodyColor: ensureString(vehicleEstimate.bodyColor, ""),
+      conditionScore: ensureString(vehicleEstimate.conditionScore, ""),
       condition: ensureString(vehicleEstimate.condition, ""),
     },
     auctionMarket: {

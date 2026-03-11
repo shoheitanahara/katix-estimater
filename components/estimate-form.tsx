@@ -68,7 +68,8 @@ export function EstimateForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6">
+    <>
+      <form onSubmit={handleSubmit} className="space-y-6" aria-busy={loading}>
       <ImageUpload
         label="車体写真"
         name="exteriorImage"
@@ -133,6 +134,23 @@ export function EstimateForm() {
           戻る
         </Link>
       </div>
-    </form>
+      </form>
+
+      {loading && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/45 px-4 backdrop-blur-[2px]">
+          <div
+            className="w-full max-w-sm rounded-2xl bg-white p-6 text-center shadow-card-hover"
+            role="status"
+            aria-live="polite"
+          >
+            <div className="mx-auto h-12 w-12 animate-spin rounded-full border-4 border-katix/30 border-t-katix" />
+            <p className="mt-4 text-lg font-bold text-gray-900">相場を予想しています</p>
+            <p className="mt-1 text-sm text-gray-600">
+              画像と車台番号を解析しています。しばらくお待ちください…
+            </p>
+          </div>
+        </div>
+      )}
+    </>
   );
 }
