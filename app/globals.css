@@ -1,0 +1,18 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* KATIX ブランドカラー + モダンUI用トークン */
+:root {
+  --katix-green: #62b34b;
+  --katix-green-dark: #4a8f3a;
+  --katix-green-light: #e9f4e7;
+  --surface: #fafafa;
+  --surface-elevated: #ffffff;
+}
+
+body {
+  @apply text-gray-900;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
