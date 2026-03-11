@@ -14,6 +14,59 @@ export function EstimateForm() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  /**
+   * Vercel本番のリクエスト上限対策:
+   * 送信前に画像をリサイズ・JPEG圧縮して payload を小さくする
+   */
+  const optimizeImageForUpload = async (file: File): Promise<File> => {
+    const dataUrl = await new Promise<string>((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(String(reader.result));
+      reader.onerror = () => reject(new Error("画像の読み込みに失敗しました。"));
+      reader.readAsDataURL(file);
+    });
+
+    const image = await new Promise<HTMLImageElement>((resolve, reject) => {
+      const img = new Image();
+      img.onload = () => resolve(img);
+      img.onerror = () => reject(new Error("画像の解析に失敗しました。"));
+      img.src = dataUrl;
+    });
+
+    const maxSide = 1600;
+    const scale = Math.min(1, maxSide / Math.max(image.width, image.height));
+    const width = Math.max(1, Math.round(image.width * scale));
+    const height = Math.max(1, Math.round(image.height * scale));
+
+    const canvas = document.createElement("canvas");
+    canvas.width = width;
+    canvas.height = height;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) throw new Error("画像変換コンテキストの生成に失敗しました。");
+    ctx.drawImage(image, 0, 0, width, height);
+
+    // 大きすぎる場合は品質を段階的に下げる
+    const toBlob = (quality: number) =>
+      new Promise<Blob | null>((resolve) => {
+        canvas.toBlob((blob) => resolve(blob), "image/jpeg", quality);
+      });
+
+    let quality = 0.85;
+    let blob = await toBlob(quality);
+    if (!blob) throw new Error("画像圧縮に失敗しました。");
+
+    const targetBytes = 1_500_000; // 約1.5MB / 枚を目安
+    while (blob.size > targetBytes && quality > 0.45) {
+      quality -= 0.1;
+      const next = await toBlob(quality);
+      if (!next) break;
+      blob = next;
+    }
+
+    const baseName = file.name.replace(/\.[^.]+$/, "");
+    return new File([blob], `${baseName}.jpg`, { type: "image/jpeg" });
+  };
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError(null);
@@ -25,9 +78,12 @@ export function EstimateForm() {
 
     setLoading(true);
     try {
+      const optimizedExterior = await optimizeImageForUpload(exteriorFile);
+      const optimizedMeter = await optimizeImageForUpload(meterFile);
+
       const formData = new FormData();
-      formData.set("exteriorImage", exteriorFile);
-      formData.set("meterImage", meterFile);
+      formData.set("exteriorImage", optimizedExterior);
+      formData.set("meterImage", optimizedMeter);
       formData.set("vin", vin);
       formData.set("memo", memo);
 
@@ -39,7 +95,11 @@ export function EstimateForm() {
       const data = await res.json();
 
       if (!res.ok) {
-        setError(data.error ?? "相場予想に失敗しました。");
+        if (res.status === 413) {
+          setError("画像サイズが大きすぎます。解像度を下げるか別画像でお試しください。");
+        } else {
+          setError(data.error ?? "相場予想に失敗しました。");
+        }
         return;
       }
 
