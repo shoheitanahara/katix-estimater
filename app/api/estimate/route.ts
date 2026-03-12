@@ -15,6 +15,7 @@ export async function POST(request: Request) {
     const formData = await request.formData();
     const exteriorFile = formData.get("exteriorImage") as File | null;
     const meterFile = formData.get("meterImage") as File | null;
+    const mileage = (formData.get("mileage") as string | null)?.trim() ?? null;
     const grade = (formData.get("grade") as string | null)?.trim() ?? null;
     const vin = (formData.get("vin") as string | null)?.trim() ?? null;
     const memo = (formData.get("memo") as string | null)?.trim() ?? null;
@@ -25,47 +26,55 @@ export async function POST(request: Request) {
         { status: 400 }
       );
     }
-    if (!meterFile || !(meterFile instanceof File)) {
+    const hasMeterFile = meterFile && meterFile instanceof File;
+    if (!hasMeterFile && !mileage) {
       return NextResponse.json(
-        { ok: false, error: "メーター写真が必須です。" },
+        { ok: false, error: "メーター写真または走行距離のいずれかが必要です。" },
         { status: 400 }
       );
     }
 
-    if (exteriorFile.size > MAX_FILE_SIZE || meterFile.size > MAX_FILE_SIZE) {
+    if (exteriorFile.size > MAX_FILE_SIZE) {
       return NextResponse.json(
         { ok: false, error: "画像は10MB以下にしてください。" },
         { status: 400 }
       );
     }
-
     const exteriorType = exteriorFile.type;
-    const meterType = meterFile.type;
-    if (!ALLOWED_TYPES.includes(exteriorType) || !ALLOWED_TYPES.includes(meterType)) {
+    if (!ALLOWED_TYPES.includes(exteriorType)) {
       return NextResponse.json(
-        { ok: false, error: "画像は JPEG / PNG / WebP でアップロードしてください。" },
+        { ok: false, error: "車体写真は JPEG / PNG / WebP でアップロードしてください。" },
+        { status: 400 }
+      );
+    }
+    if (hasMeterFile && (meterFile!.size > MAX_FILE_SIZE || !ALLOWED_TYPES.includes(meterFile!.type))) {
+      return NextResponse.json(
+        { ok: false, error: "メーター写真は10MB以下で JPEG / PNG / WebP にしてください。" },
         { status: 400 }
       );
     }
 
     const exteriorBuffer = await exteriorFile.arrayBuffer();
-    const meterBuffer = await meterFile.arrayBuffer();
     const exteriorBase64 = toBase64(exteriorBuffer);
-    const meterBase64 = toBase64(meterBuffer);
+    let meterBase64: string | null = null;
+    if (hasMeterFile) {
+      const meterBuffer = await meterFile!.arrayBuffer();
+      meterBase64 = toBase64(meterBuffer);
+    }
 
     const result = await getEstimateFromOpenAI(
       exteriorBase64,
       meterBase64,
       grade || null,
       vin || null,
-      memo || null
+      memo || null,
+      mileage || null
     );
 
     const id = randomUUID();
-    const images = { exterior: exteriorBase64, meter: meterBase64 };
+    const images = { exterior: exteriorBase64, meter: meterBase64 ?? undefined };
     saveResult(id, result, images);
 
-    // クライアントで結果・画像を表示するため返す（画像は data URL 用の base64）
     return NextResponse.json({
       ok: true,
       id,

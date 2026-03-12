@@ -9,6 +9,7 @@ export function EstimateForm() {
   const router = useRouter();
   const [exteriorFile, setExteriorFile] = useState<File | null>(null);
   const [meterFile, setMeterFile] = useState<File | null>(null);
+  const [mileageInput, setMileageInput] = useState("");
   const [grade, setGrade] = useState("");
   const [vin, setVin] = useState("");
   const [memo, setMemo] = useState("");
@@ -72,19 +73,33 @@ export function EstimateForm() {
     e.preventDefault();
     setError(null);
 
-    if (!exteriorFile || !meterFile) {
-      setError("車体写真とメーター写真の両方を選択してください。");
+    if (!exteriorFile) {
+      setError("車体写真を選択してください。");
+      return;
+    }
+    const hasMeter = !!meterFile;
+    const hasMileage = mileageInput.trim().length > 0;
+    if (!hasMeter && !hasMileage) {
+      setError("メーター写真または走行距離のいずれかを入力してください。");
       return;
     }
 
     setLoading(true);
     try {
-      const optimizedExterior = await optimizeImageForUpload(exteriorFile);
-      const optimizedMeter = await optimizeImageForUpload(meterFile);
+      let uploadExterior = exteriorFile;
+      let uploadMeter: File | null = null;
+      try {
+        uploadExterior = await optimizeImageForUpload(exteriorFile);
+        if (meterFile) uploadMeter = await optimizeImageForUpload(meterFile);
+      } catch {
+        uploadExterior = exteriorFile;
+        if (meterFile) uploadMeter = meterFile;
+      }
 
       const formData = new FormData();
-      formData.set("exteriorImage", optimizedExterior);
-      formData.set("meterImage", optimizedMeter);
+      formData.set("exteriorImage", uploadExterior);
+      if (uploadMeter) formData.set("meterImage", uploadMeter);
+      formData.set("mileage", mileageInput.trim());
       formData.set("grade", grade);
       formData.set("vin", vin);
       formData.set("memo", memo);
@@ -108,10 +123,13 @@ export function EstimateForm() {
       if (data.ok && data.id && data.result) {
         try {
           sessionStorage.setItem(`estimate-${data.id}`, JSON.stringify(data.result));
-          if (data.images?.exterior && data.images?.meter) {
+          if (data.images?.exterior) {
             sessionStorage.setItem(
               `estimate-images-${data.id}`,
-              JSON.stringify({ exterior: data.images.exterior, meter: data.images.meter })
+              JSON.stringify({
+                exterior: data.images.exterior,
+                meter: data.images.meter ?? null,
+              })
             );
           }
         } catch {
@@ -139,11 +157,29 @@ export function EstimateForm() {
         onChange={setExteriorFile}
       />
       <ImageUpload
-        label="メーター写真"
+        label="メーター写真（走行距離が分かる写真）"
         name="meterImage"
         value={meterFile}
         onChange={setMeterFile}
       />
+      <div>
+        <label htmlFor="mileage" className="block text-sm font-medium text-gray-700">
+          走行距離（手入力）
+        </label>
+        <input
+          id="mileage"
+          type="text"
+          inputMode="numeric"
+          name="mileage"
+          value={mileageInput}
+          onChange={(e) => setMileageInput(e.target.value)}
+          placeholder="例: 50000"
+          className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-katix focus:outline-none focus:ring-1 focus:ring-katix"
+        />
+        <p className="mt-1 text-xs text-gray-500">
+          メーター写真がない場合はこちらを入力してください。メーター写真か走行距離のどちらかは必須です。
+        </p>
+      </div>
 
       <div>
         <label htmlFor="grade" className="block text-sm font-medium text-gray-700">

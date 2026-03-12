@@ -12,51 +12,56 @@ function getOpenAIClient(): OpenAI {
 }
 
 /**
- * 車体画像・メーター画像と付帯情報から査定JSONを取得
+ * 車体画像・メーター画像（任意）と付帯情報から査定JSONを取得
  * @param exteriorImageBase64 - 車体写真（base64）
- * @param meterImageBase64 - メーター写真（base64）
+ * @param meterImageBase64 - メーター写真（base64）。手入力走行距離の場合は null
  * @param grade - グレード情報（任意）
  * @param vin - 車台番号（任意）
  * @param memo - メモ（任意）
+ * @param mileageInput - 走行距離の手入力（任意。メーター写真がない場合に使用）
  */
 export async function getEstimateFromOpenAI(
   exteriorImageBase64: string,
-  meterImageBase64: string,
+  meterImageBase64: string | null,
   grade: string | null,
   vin: string | null,
-  memo: string | null
+  memo: string | null,
+  mileageInput: string | null
 ): Promise<EstimateResult> {
   const openai = getOpenAIClient();
-  const userText = buildUserMessage(grade, vin, memo);
+  const userText = buildUserMessage(grade, vin, memo, mileageInput);
 
-  // 最新系モデルは Responses API で利用するのが公式推奨
+  const userContent: Array<
+    | { type: "input_text"; text: string }
+    | { type: "input_image"; image_url: string; detail: "high" }
+  > = [
+    { type: "input_text", text: userText },
+    {
+      type: "input_image",
+      image_url: `data:image/jpeg;base64,${exteriorImageBase64}`,
+      detail: "high",
+    },
+  ];
+  if (meterImageBase64) {
+    userContent.push({
+      type: "input_image",
+      image_url: `data:image/jpeg;base64,${meterImageBase64}`,
+      detail: "high",
+    });
+  }
+
   let response: unknown;
   try {
     response = await openai.responses.create({
       model: "gpt-5.4",
-      temperature: 0.2, // 車種同定のばらつきを抑える（0に近いほど一貫）
+      temperature: 0.2,
       max_output_tokens: 2000,
       input: [
         {
           role: "system",
           content: [{ type: "input_text", text: ESTIMATE_SYSTEM_PROMPT }],
         },
-        {
-          role: "user",
-          content: [
-            { type: "input_text", text: userText },
-            {
-              type: "input_image",
-              image_url: `data:image/jpeg;base64,${exteriorImageBase64}`,
-              detail: "high",
-            },
-            {
-              type: "input_image",
-              image_url: `data:image/jpeg;base64,${meterImageBase64}`,
-              detail: "high",
-            },
-          ],
-        },
+        { role: "user", content: userContent },
       ],
     });
   } catch (error) {

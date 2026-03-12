@@ -1,9 +1,9 @@
 import type { EstimateResult } from "./types";
 
-/** 画像は base64 文字列（API・表示用） */
+/** 画像は base64 文字列（API・表示用）。メーター写真は手入力走行距離の場合は無い場合あり */
 export interface StoredImages {
   exterior: string;
-  meter: string;
+  meter?: string;
 }
 
 export interface StoredEstimate {

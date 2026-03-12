@@ -3,10 +3,10 @@
 import { useState } from "react";
 import type { EstimateResult } from "@/lib/types";
 
-/** 結果表示用に一時保存した画像（base64） */
+/** 結果表示用に一時保存した画像（base64）。メーターは手入力走行距離の場合は無い場合あり */
 export interface ResultImages {
   exterior: string;
-  meter: string;
+  meter?: string | null;
 }
 
 interface ResultCardProps {
@@ -138,9 +138,9 @@ export function ResultCard({ result, images }: ResultCardProps) {
   return (
     <div className="space-y-6">
       {/* 対象画像 */}
-      {images?.exterior && images?.meter && (
+      {images?.exterior && (
         <Section title="対象の画像">
-          <div className="grid grid-cols-2 gap-4">
+          <div className={`grid gap-4 ${images.meter ? "grid-cols-2" : "grid-cols-1"}`}>
             <div>
               <p className="mb-1.5 text-xs font-medium text-gray-400">車体</p>
               <img
@@ -149,14 +149,16 @@ export function ResultCard({ result, images }: ResultCardProps) {
                 className="max-h-40 w-full rounded-xl border border-gray-100 object-cover object-center"
               />
             </div>
-            <div>
-              <p className="mb-1.5 text-xs font-medium text-gray-400">メーター</p>
-              <img
-                src={toDataUrl(images.meter)}
-                alt="メーター"
-                className="max-h-40 w-full rounded-xl border border-gray-100 object-cover object-center"
-              />
-            </div>
+            {images.meter && (
+              <div>
+                <p className="mb-1.5 text-xs font-medium text-gray-400">メーター</p>
+                <img
+                  src={toDataUrl(images.meter)}
+                  alt="メーター"
+                  className="max-h-40 w-full rounded-xl border border-gray-100 object-cover object-center"
+                />
+              </div>
+            )}
           </div>
         </Section>
       )}
