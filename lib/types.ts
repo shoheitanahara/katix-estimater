@@ -42,6 +42,8 @@ export interface EstimateResult {
   katixPrediction: KatixPrediction;
   priceFactors: PriceFactors;
   comment: string;
+  /** 相場予想の自信度（10〜90）。情報量・参考データ量に応じてAIが付与 */
+  confidencePercent?: number;
 }
 
 /** API が返す成功レスポンス（結果IDと査定結果） */

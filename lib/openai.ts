@@ -158,6 +158,14 @@ function parseAndValidateEstimateResult(raw: string): EstimateResult {
   const goodCondition = (katixPrediction.goodCondition as Record<string, unknown>) ?? {};
   const usedCondition = (katixPrediction.usedCondition as Record<string, unknown>) ?? {};
 
+  // 自信度は 10〜90 にクランプ。未設定・不正値は undefined
+  const rawConf = o.confidencePercent;
+  let confidencePercent: number | undefined;
+  if (typeof rawConf === "number" && !Number.isNaN(rawConf)) {
+    const clamped = Math.round(Math.max(10, Math.min(90, rawConf)));
+    confidencePercent = clamped;
+  }
+
   return {
     vehicleEstimate: {
       make: ensureString(vehicleEstimate.make, ""),
@@ -191,5 +199,6 @@ function parseAndValidateEstimateResult(raw: string): EstimateResult {
       downside: ensureStringArray(priceFactors.downside),
     },
     comment: ensureString(o.comment, ""),
+    ...(confidencePercent !== undefined && { confidencePercent }),
   };
 }

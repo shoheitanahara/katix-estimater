@@ -87,7 +87,7 @@ function KatixPriceCard({
 }
 
 export function ResultCard({ result, images }: ResultCardProps) {
-  const { vehicleEstimate, auctionMarket, katixPrediction, priceFactors, comment } =
+  const { vehicleEstimate, auctionMarket, katixPrediction, priceFactors, comment, confidencePercent } =
     result;
   const v = vehicleEstimate;
   const kGood = katixPrediction.goodCondition;
@@ -102,6 +102,7 @@ export function ResultCard({ result, images }: ResultCardProps) {
 
     return [
       "【KATIX相場予想メモ】",
+      ...(confidencePercent != null ? [`予想精度: ${confidencePercent}%`] : []),
       `車種: ${`${v.make} ${v.model}`.trim() || v.model || "不明"}`,
       `世代（型式）: ${v.generation || "不明"}`,
       `年式推定: ${v.yearEstimate || "不明"}`,
@@ -179,13 +180,21 @@ export function ResultCard({ result, images }: ResultCardProps) {
       {/* KATIX 相場予想：落札予想を主役に */}
       <section className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-katix-light to-white p-6 shadow-card ring-1 ring-katix/10 sm:p-8">
         <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center gap-2">
             <span className="inline-flex items-center rounded-full bg-katix/15 px-2.5 py-0.5 text-xs font-semibold text-katix-dark">
               KATIX
             </span>
             <h2 className="text-lg font-bold tracking-tight text-gray-900">
               相場予想
             </h2>
+            {confidencePercent != null && (
+              <span
+                className="inline-flex items-center gap-1 rounded-full bg-gray-100 px-2.5 py-1 text-xs font-medium text-gray-700"
+                title="情報量・参考オークションデータに基づく予想の自信度です"
+              >
+                予想精度: {confidencePercent}%
+              </span>
+            )}
           </div>
           <button
             type="button"
