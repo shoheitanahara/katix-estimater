@@ -89,8 +89,13 @@ function KatixPriceCard({
   );
 }
 
+/** 万円を円にし、3桁カンマ付きで表示（例: 215 → 2,150,000） */
+function formatYenFromMan(man: number): string {
+  return (man * 10000).toLocaleString("ja-JP") + "円";
+}
+
 export function ResultCard({ result, images, input }: ResultCardProps) {
-  const { vehicleEstimate, auctionMarket, katixPrediction, priceFactors, comment, confidencePercent } =
+  const { vehicleEstimate, auctionMarket, katixPrediction, priceFactors, comment, confidencePercent, expectedBuybackMan } =
     result;
   const v = vehicleEstimate;
   const kGood = katixPrediction.goodCondition;
@@ -106,6 +111,9 @@ export function ResultCard({ result, images, input }: ResultCardProps) {
     return [
       "【KATIX相場予想メモ】",
       ...(confidencePercent != null ? [`予想精度: ${confidencePercent}%`] : []),
+      ...(expectedBuybackMan != null && expectedBuybackMan >= 0
+        ? [`予想買取金額: ${formatYenFromMan(expectedBuybackMan)}`]
+        : []),
       `車種: ${`${v.make} ${v.model}`.trim() || v.model || "不明"}`,
       `世代（型式）: ${v.generation || "不明"}`,
       `年式推定: ${v.yearEstimate || "不明"}`,
@@ -229,6 +237,19 @@ export function ResultCard({ result, images, input }: ResultCardProps) {
           <p className="mb-3 text-xs font-medium text-red-600">
             コピーに失敗しました。ブラウザの権限をご確認ください。
           </p>
+        )}
+        {expectedBuybackMan != null && expectedBuybackMan >= 0 && (
+          <div className="mb-6 rounded-2xl border-2 border-katix/20 bg-white p-5 ring-1 ring-katix/10 sm:p-6">
+            <p className="text-xs font-semibold uppercase tracking-wider text-gray-500">
+              予想買取金額
+            </p>
+            <p className="mt-2 text-3xl font-bold tracking-tight text-katix-dark sm:text-4xl">
+              {formatYenFromMan(expectedBuybackMan)}
+            </p>
+            <p className="mt-1 text-xs text-gray-500">
+              評価点に基づく1万円単位の目安です。実際の査定では変動する場合があります。
+            </p>
+          </div>
         )}
         <div className="grid gap-5 sm:grid-cols-2 sm:gap-6">
           <KatixPriceCard

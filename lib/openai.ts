@@ -166,6 +166,13 @@ function parseAndValidateEstimateResult(raw: string): EstimateResult {
     confidencePercent = clamped;
   }
 
+  // 予想買取金額（万円・1万単位）。0以上の整数に正規化
+  const rawBuyback = o.expectedBuybackMan;
+  let expectedBuybackMan: number | undefined;
+  if (typeof rawBuyback === "number" && !Number.isNaN(rawBuyback) && rawBuyback >= 0) {
+    expectedBuybackMan = Math.round(rawBuyback);
+  }
+
   return {
     vehicleEstimate: {
       make: ensureString(vehicleEstimate.make, ""),
@@ -200,5 +207,6 @@ function parseAndValidateEstimateResult(raw: string): EstimateResult {
     },
     comment: ensureString(o.comment, ""),
     ...(confidencePercent !== undefined && { confidencePercent }),
+    ...(expectedBuybackMan !== undefined && { expectedBuybackMan }),
   };
 }

@@ -44,6 +44,8 @@ export interface EstimateResult {
   comment: string;
   /** 相場予想の自信度（10〜90）。情報量・参考データ量に応じてAIが付与 */
   confidencePercent?: number;
+  /** 予想買取金額（1万円単位・整数の万円）。評価点に近いレンジから詰めた単一見積もり。保守寄り推奨 */
+  expectedBuybackMan?: number;
 }
 
 /** API が返す成功レスポンス（結果IDと査定結果） */
