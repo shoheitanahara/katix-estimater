@@ -73,7 +73,13 @@ export async function POST(request: Request) {
 
     const id = randomUUID();
     const images = { exterior: exteriorBase64, meter: meterBase64 ?? undefined };
-    saveResult(id, result, images);
+    const input = {
+      mileage: mileage ?? undefined,
+      grade: grade ?? undefined,
+      vin: vin ?? undefined,
+      memo: memo ?? undefined,
+    };
+    saveResult(id, result, images, input);
 
     return NextResponse.json({
       ok: true,

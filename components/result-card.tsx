@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import type { EstimateResult } from "@/lib/types";
+import type { EstimateInput } from "@/lib/store";
 
 /** 結果表示用に一時保存した画像（base64）。メーターは手入力走行距離の場合は無い場合あり */
 export interface ResultImages {
@@ -12,6 +13,8 @@ export interface ResultImages {
 interface ResultCardProps {
   result: EstimateResult;
   images?: ResultImages | null;
+  /** 査定に使用した付帯情報（グレード・車体番号・メモ・走行距離）。表示と再査定フォームの初期値に使用 */
+  input?: EstimateInput | null;
 }
 
 function Section({
@@ -86,7 +89,7 @@ function KatixPriceCard({
   );
 }
 
-export function ResultCard({ result, images }: ResultCardProps) {
+export function ResultCard({ result, images, input }: ResultCardProps) {
   const { vehicleEstimate, auctionMarket, katixPrediction, priceFactors, comment, confidencePercent } =
     result;
   const v = vehicleEstimate;
@@ -138,29 +141,42 @@ export function ResultCard({ result, images }: ResultCardProps) {
 
   return (
     <div className="space-y-6">
-      {/* 対象画像 */}
+      {/* 査定に使用した情報：画像＋付帯情報 */}
       {images?.exterior && (
-        <Section title="対象の画像">
+        <Section title="査定に使用した情報">
           <div className={`grid gap-4 ${images.meter ? "grid-cols-2" : "grid-cols-1"}`}>
             <div>
-              <p className="mb-1.5 text-xs font-medium text-gray-400">車体</p>
+              <p className="mb-1.5 text-xs font-medium text-gray-400">車体写真</p>
               <img
                 src={toDataUrl(images.exterior)}
                 alt="車体"
                 className="max-h-40 w-full rounded-xl border border-gray-100 object-cover object-center"
               />
             </div>
-            {images.meter && (
+            {images.meter ? (
               <div>
-                <p className="mb-1.5 text-xs font-medium text-gray-400">メーター</p>
+                <p className="mb-1.5 text-xs font-medium text-gray-400">メーター写真</p>
                 <img
                   src={toDataUrl(images.meter)}
                   alt="メーター"
                   className="max-h-40 w-full rounded-xl border border-gray-100 object-cover object-center"
                 />
               </div>
+            ) : (
+              <div>
+                <p className="mb-1.5 text-xs font-medium text-gray-400">メーター写真</p>
+                <p className="rounded-xl border border-gray-100 bg-gray-50 py-8 text-center text-sm text-gray-400">
+                  手入力の走行距離で査定
+                </p>
+              </div>
             )}
           </div>
+          <dl className="mt-4 space-y-0 border-t border-gray-100 pt-4">
+            <DlRow label="走行距離（手入力）" value={input?.mileage?.trim() ?? ""} />
+            <DlRow label="グレード" value={input?.grade?.trim() ?? ""} />
+            <DlRow label="車台番号" value={input?.vin?.trim() ?? ""} />
+            <DlRow label="メモ" value={input?.memo?.trim() ?? ""} />
+          </dl>
         </Section>
       )}
 

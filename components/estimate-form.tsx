@@ -132,6 +132,15 @@ export function EstimateForm() {
               })
             );
           }
+          sessionStorage.setItem(
+            `estimate-input-${data.id}`,
+            JSON.stringify({
+              mileage: mileageInput.trim() || undefined,
+              grade: grade.trim() || undefined,
+              vin: vin.trim() || undefined,
+              memo: memo.trim() || undefined,
+            })
+          );
         } catch {
           // sessionStorage が使えない環境では API の getResult に依存
         }

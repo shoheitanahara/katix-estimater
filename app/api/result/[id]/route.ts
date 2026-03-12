@@ -24,5 +24,6 @@ export async function GET(
   return NextResponse.json({
     result: stored.result,
     images: stored.images,
+    input: stored.input,
   });
 }
