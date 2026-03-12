@@ -238,6 +238,9 @@ export function ResultCard({ result, images, input }: ResultCardProps) {
             コピーに失敗しました。ブラウザの権限をご確認ください。
           </p>
         )}
+        <p className="mb-4 text-xs text-gray-500">
+          本予想はAIの学習に基づく参考値です。特定のオークション実データ・時期・件数には基づいていません。
+        </p>
         {expectedBuybackMan != null && expectedBuybackMan >= 0 && (
           <div className="mb-6 rounded-2xl border-2 border-katix/20 bg-white p-5 ring-1 ring-katix/10 sm:p-6">
             <p className="text-xs font-semibold uppercase tracking-wider text-gray-500">
