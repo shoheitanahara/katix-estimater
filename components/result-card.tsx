@@ -95,7 +95,7 @@ function formatYenFromMan(man: number): string {
 }
 
 export function ResultCard({ result, images, input }: ResultCardProps) {
-  const { vehicleEstimate, auctionMarket, katixPrediction, priceFactors, comment, confidencePercent, expectedBuybackMan } =
+  const { vehicleEstimate, auctionMarket, katixPrediction, priceFactors, comment, confidencePercent, expectedBuybackMan, minimumGuaranteeMan } =
     result;
   const v = vehicleEstimate;
   const kGood = katixPrediction.goodCondition;
@@ -113,6 +113,9 @@ export function ResultCard({ result, images, input }: ResultCardProps) {
       ...(confidencePercent != null ? [`予想精度: ${confidencePercent}%`] : []),
       ...(expectedBuybackMan != null && expectedBuybackMan >= 0
         ? [`予想買取金額: ${formatYenFromMan(expectedBuybackMan)}`]
+        : []),
+      ...(minimumGuaranteeMan != null && minimumGuaranteeMan >= 0
+        ? [`最低保証価格: ${formatYenFromMan(minimumGuaranteeMan)}`]
         : []),
       `車種: ${`${v.make} ${v.model}`.trim() || v.model || "不明"}`,
       `世代（型式）: ${v.generation || "不明"}`,
@@ -241,19 +244,39 @@ export function ResultCard({ result, images, input }: ResultCardProps) {
         <p className="mb-4 text-xs text-gray-500">
           本予想はAIの学習に基づく参考値です。特定のオークション実データ・時期・件数には基づいていません。
         </p>
-        {expectedBuybackMan != null && expectedBuybackMan >= 0 && (
-          <div className="mb-6 rounded-2xl border-2 border-katix/20 bg-white p-5 ring-1 ring-katix/10 sm:p-6">
-            <p className="text-xs font-semibold uppercase tracking-wider text-gray-500">
-              予想買取金額
-            </p>
-            <p className="mt-2 text-3xl font-bold tracking-tight text-katix-dark sm:text-4xl">
-              {formatYenFromMan(expectedBuybackMan)}
-            </p>
-            <p className="mt-1 text-xs text-gray-500">
-              評価点に基づく1万円単位の目安です。実際の査定では変動する場合があります。
+        {(expectedBuybackMan != null && expectedBuybackMan >= 0) || (minimumGuaranteeMan != null && minimumGuaranteeMan >= 0) ? (
+          <div className="mb-6 grid gap-4 rounded-2xl border-2 border-katix/20 bg-white p-5 ring-1 ring-katix/10 sm:grid-cols-2 sm:p-6">
+            {expectedBuybackMan != null && expectedBuybackMan >= 0 && (
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-wider text-gray-500">
+                  予想買取金額
+                </p>
+                <p className="mt-2 text-2xl font-bold tracking-tight text-katix-dark sm:text-3xl">
+                  {formatYenFromMan(expectedBuybackMan)}
+                </p>
+                <p className="mt-1 text-xs text-gray-500">
+                  評価点に基づく1万円単位の目安です。
+                </p>
+              </div>
+            )}
+            {minimumGuaranteeMan != null && minimumGuaranteeMan >= 0 && (
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-wider text-gray-500">
+                  最低保証価格
+                </p>
+                <p className="mt-2 text-2xl font-bold tracking-tight text-gray-800 sm:text-3xl">
+                  {formatYenFromMan(minimumGuaranteeMan)}
+                </p>
+                <p className="mt-1 text-xs text-gray-500">
+                  評点の下限をベースに安全めに見積もった最低額です。
+                </p>
+              </div>
+            )}
+            <p className="text-xs text-gray-500 sm:col-span-2">
+              実際の査定では変動する場合があります。
             </p>
           </div>
-        )}
+        ) : null}
         <div className="grid gap-5 sm:grid-cols-2 sm:gap-6">
           <KatixPriceCard
             label="美車（評価4〜4.5）"

@@ -173,6 +173,13 @@ function parseAndValidateEstimateResult(raw: string): EstimateResult {
     expectedBuybackMan = Math.round(rawBuyback);
   }
 
+  // 最低保証価格（万円・1万単位）。0以上の整数に正規化
+  const rawMinGuarantee = o.minimumGuaranteeMan;
+  let minimumGuaranteeMan: number | undefined;
+  if (typeof rawMinGuarantee === "number" && !Number.isNaN(rawMinGuarantee) && rawMinGuarantee >= 0) {
+    minimumGuaranteeMan = Math.round(rawMinGuarantee);
+  }
+
   return {
     vehicleEstimate: {
       make: ensureString(vehicleEstimate.make, ""),
@@ -208,5 +215,6 @@ function parseAndValidateEstimateResult(raw: string): EstimateResult {
     comment: ensureString(o.comment, ""),
     ...(confidencePercent !== undefined && { confidencePercent }),
     ...(expectedBuybackMan !== undefined && { expectedBuybackMan }),
+    ...(minimumGuaranteeMan !== undefined && { minimumGuaranteeMan }),
   };
 }

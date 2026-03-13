@@ -46,6 +46,8 @@ export interface EstimateResult {
   confidencePercent?: number;
   /** 予想買取金額（1万円単位・整数の万円）。評価点に近いレンジから詰めた単一見積もり。保守寄り推奨 */
   expectedBuybackMan?: number;
+  /** 最低保証価格（1万円単位・整数の万円）。評点推定の下限ベースで安全めに見積もった最低額 */
+  minimumGuaranteeMan?: number;
 }
 
 /** API が返す成功レスポンス（結果IDと査定結果） */
