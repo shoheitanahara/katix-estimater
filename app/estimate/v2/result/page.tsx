@@ -193,6 +193,14 @@ export default function EstimateV2ResultPage() {
 
                   <div className="mt-5 flex flex-col gap-3">
                     <Link
+                      href="/estimate/v2/upload-photos"
+                      className="inline-flex items-center justify-center rounded-xl px-6 py-3 text-sm font-semibold text-white shadow-card transition hover:opacity-95"
+                      style={{ backgroundColor: "rgb(64 162 96)" }}
+                    >
+                      続けて写真・詳細を入力（モック）
+                      <span className="ml-2 text-base leading-none">→</span>
+                    </Link>
+                    <Link
                       href="/estimate/v2"
                       className="inline-flex items-center justify-center rounded-xl bg-gray-900 px-6 py-3 text-sm font-semibold text-white shadow-card transition hover:bg-gray-800"
                     >

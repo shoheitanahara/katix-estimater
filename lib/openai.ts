@@ -59,7 +59,7 @@ export async function getEstimateFromOpenAI(
   try {
     response = await openai.responses.create({
       model: "gpt-5.4",
-      temperature: 0.2,
+      temperature: 0.1,
       max_output_tokens: 2000,
       input: [
         {
@@ -105,7 +105,7 @@ export async function getEstimateV2FromOpenAI(params: {
     try {
       response = await openai.responses.create({
         model: "gpt-5.4",
-        temperature: opts?.retry ? 0 : 0.2,
+        temperature: opts?.retry ? 0 : 0.1,
         max_output_tokens: 900,
         input: [
           {
