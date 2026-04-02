@@ -64,3 +64,41 @@ export interface EstimateApiError {
 }
 
 export type EstimateApiResponse = EstimateApiSuccess | EstimateApiError;
+
+/**
+ * v2: 画像なし（テキスト入力のみ）相場予想のレスポンス型
+ */
+export interface EstimateV2Result {
+  assumption: {
+    /** 常に "4〜5点" を想定した文言 */
+    auctionScore: string;
+    /** 前提や不確実性の補足（1〜2文） */
+    notes: string;
+  };
+  input: {
+    make: string;
+    model: string;
+    year?: number | null;
+    mileageKm: number;
+  };
+  auctionExpected: {
+    rangeMinMan: number;
+    rangeMaxMan: number;
+    centerMan: number;
+  };
+  comment: string;
+  /** 相場予想の自信度（10〜90）。ズレうる場合は低めに */
+  confidencePercent?: number;
+}
+
+export interface EstimateV2ApiSuccess {
+  ok: true;
+  result: EstimateV2Result;
+}
+
+export interface EstimateV2ApiError {
+  ok: false;
+  error: string;
+}
+
+export type EstimateV2ApiResponse = EstimateV2ApiSuccess | EstimateV2ApiError;

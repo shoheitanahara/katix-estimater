@@ -1,6 +1,11 @@
 import OpenAI from "openai";
-import type { EstimateResult } from "./types";
-import { ESTIMATE_SYSTEM_PROMPT, buildUserMessage } from "./prompt";
+import type { EstimateResult, EstimateV2Result } from "./types";
+import {
+  ESTIMATE_SYSTEM_PROMPT,
+  ESTIMATE_V2_SYSTEM_PROMPT,
+  buildUserMessage,
+  buildUserMessageV2,
+} from "./prompt";
 
 /** サーバー側でのみ使用。APIキーはクライアントに露出しない */
 function getOpenAIClient(): OpenAI {
@@ -81,6 +86,79 @@ export async function getEstimateFromOpenAI(
 
   const parsed = parseAndValidateEstimateResult(content);
   return parsed;
+}
+
+/**
+ * v2: メーカー/車種/走行距離（テキストのみ）から「評点4〜5想定」の予想落札価格を取得
+ */
+export async function getEstimateV2FromOpenAI(params: {
+  make: string;
+  model: string;
+  year?: number;
+  mileageKm: number;
+}): Promise<EstimateV2Result> {
+  const openai = getOpenAIClient();
+  const userText = buildUserMessageV2(params);
+
+  const createResponse = async (opts?: { retry: boolean }): Promise<EstimateV2Result> => {
+    let response: unknown;
+    try {
+      response = await openai.responses.create({
+        model: "gpt-5.4",
+        temperature: opts?.retry ? 0 : 0.2,
+        max_output_tokens: 900,
+        input: [
+          {
+            role: "system",
+            content: [
+              { type: "input_text", text: ESTIMATE_V2_SYSTEM_PROMPT },
+              ...(opts?.retry
+                ? [
+                    {
+                      type: "input_text" as const,
+                      text: "前回はJSONが壊れました。必ず指定のJSONのみを返してください（説明文や前後の文章は禁止）。",
+                    },
+                  ]
+                : []),
+            ],
+          },
+          {
+            role: "user",
+            content: [{ type: "input_text", text: userText }],
+          },
+        ],
+      });
+    } catch (error) {
+      const message = error instanceof Error ? error.message : String(error);
+      if (message.includes("model") || message.includes("gpt-5.4")) {
+        throw new Error(
+          "gpt-5.4 の利用に失敗しました。APIアカウントのモデルアクセス権限を確認してください。"
+        );
+      }
+      throw error;
+    }
+
+    const content = extractResponseText(response);
+    if (!content) {
+      throw new Error("OpenAI returned empty content");
+    }
+    return parseAndValidateEstimateV2Result(content);
+  };
+
+  try {
+    return await createResponse({ retry: false });
+  } catch (err) {
+    const message = err instanceof Error ? err.message : String(err);
+    const retryable =
+      message.includes("not valid JSON") ||
+      message.includes("Missing or invalid") ||
+      message.includes("Missing or invalid assumption") ||
+      message.includes("Missing or invalid input") ||
+      message.includes("Missing or invalid auctionExpected") ||
+      message.includes("AI response is not");
+    if (!retryable) throw err;
+    return await createResponse({ retry: true });
+  }
 }
 
 /**
@@ -216,5 +294,76 @@ function parseAndValidateEstimateResult(raw: string): EstimateResult {
     ...(confidencePercent !== undefined && { confidencePercent }),
     ...(expectedBuybackMan !== undefined && { expectedBuybackMan }),
     ...(minimumGuaranteeMan !== undefined && { minimumGuaranteeMan }),
+  };
+}
+
+function parseAndValidateEstimateV2Result(raw: string): EstimateV2Result {
+  let json: unknown;
+  try {
+    json = JSON.parse(raw);
+  } catch {
+    throw new Error("AI response is not valid JSON");
+  }
+  if (!json || typeof json !== "object") {
+    throw new Error("AI response is not an object");
+  }
+
+  const o = json as Record<string, unknown>;
+  const assumption = o.assumption as Record<string, unknown> | undefined;
+  const input = o.input as Record<string, unknown> | undefined;
+  const auctionExpected = o.auctionExpected as Record<string, unknown> | undefined;
+
+  if (!assumption || typeof assumption !== "object") {
+    throw new Error("Missing or invalid assumption");
+  }
+  if (!input || typeof input !== "object") {
+    throw new Error("Missing or invalid input");
+  }
+  if (!auctionExpected || typeof auctionExpected !== "object") {
+    throw new Error("Missing or invalid auctionExpected");
+  }
+
+  const ensureString = (v: unknown, defaultVal: string): string =>
+    typeof v === "string" ? v : defaultVal;
+  const ensureNumber = (v: unknown, defaultVal: number): number =>
+    typeof v === "number" && !Number.isNaN(v) ? v : defaultVal;
+
+  const rawConf = o.confidencePercent;
+  let confidencePercent: number | undefined;
+  if (typeof rawConf === "number" && !Number.isNaN(rawConf)) {
+    confidencePercent = Math.round(Math.max(10, Math.min(90, rawConf)));
+  }
+
+  const mileageKmRaw = input.mileageKm;
+  const mileageKm = typeof mileageKmRaw === "number" && Number.isFinite(mileageKmRaw) ? Math.round(mileageKmRaw) : 0;
+
+  const yearRaw = input.year;
+  const year =
+    typeof yearRaw === "number" && Number.isFinite(yearRaw) ? Math.round(yearRaw) : yearRaw === null ? null : undefined;
+
+  const rangeMinMan = ensureNumber(auctionExpected.rangeMinMan, 0);
+  const rangeMaxMan = ensureNumber(auctionExpected.rangeMaxMan, 0);
+  const centerMan = ensureNumber(auctionExpected.centerMan, 0);
+  const normalizedCenterMan =
+    centerMan > 0 ? centerMan : Math.round((Math.max(0, rangeMinMan) + Math.max(0, rangeMaxMan)) / 2);
+
+  return {
+    assumption: {
+      auctionScore: ensureString(assumption.auctionScore, "4〜5点"),
+      notes: ensureString(assumption.notes, ""),
+    },
+    input: {
+      make: ensureString(input.make, ""),
+      model: ensureString(input.model, ""),
+      ...(year !== undefined ? { year } : {}),
+      mileageKm,
+    },
+    auctionExpected: {
+      rangeMinMan: Math.max(0, Math.round(rangeMinMan)),
+      rangeMaxMan: Math.max(0, Math.round(rangeMaxMan)),
+      centerMan: Math.max(0, Math.round(normalizedCenterMan)),
+    },
+    comment: ensureString(o.comment, ""),
+    ...(confidencePercent !== undefined && { confidencePercent }),
   };
 }
