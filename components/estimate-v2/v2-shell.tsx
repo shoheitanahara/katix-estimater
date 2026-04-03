@@ -41,7 +41,7 @@ export function EstimateV2Header(props: {
               <span className="text-gray-300">•</span>
               <span>{typeof mileageKm === "number" ? `${formatMileage(mileageKm)}km` : "—km"}</span>
               <span className="text-gray-300">•</span>
-              <span>想定: オークション評点4〜5点</span>
+              <span>想定: 美車〜良質車相当</span>
             </div>
           </div>
         </div>

@@ -70,7 +70,7 @@ export type EstimateApiResponse = EstimateApiSuccess | EstimateApiError;
  */
 export interface EstimateV2Result {
   assumption: {
-    /** 常に "4〜5点" を想定した文言 */
+    /** ユーザー向けの前提ラベル（例: 美車〜良質車）。数値の評点は使わない */
     auctionScore: string;
     /** 前提や不確実性の補足（1〜2文） */
     notes: string;

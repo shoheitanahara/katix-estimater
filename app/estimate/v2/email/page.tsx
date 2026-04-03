@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
+import { GoogleMark, AppleMark } from "@/components/estimate-v2/oauth-icons";
 import { EstimateV2Card, EstimateV2Header } from "@/components/estimate-v2/v2-shell";
 import { loadEstimateV2Input, saveEstimateV2Email } from "@/components/estimate-v2/v2-storage";
 
@@ -44,7 +45,7 @@ export default function EstimateV2EmailPage() {
   };
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="bg-white">
       <EstimateV2Header make={input?.make} model={input?.model} year={input?.year} mileageKm={input?.mileageKm} />
 
       <main className="bg-white">
@@ -55,7 +56,7 @@ export default function EstimateV2EmailPage() {
                 メールを登録して続行
               </h1>
               <p className="mt-3 text-sm leading-relaxed text-gray-600">
-                ここはモックです（実際の送信や認証は行いません）。
+                相場結果の確認や、今後のご案内に使用します。
               </p>
             </div>
 
@@ -96,18 +97,18 @@ export default function EstimateV2EmailPage() {
                 <button
                   type="button"
                   onClick={() => setEmail("google.user@example.com")}
-                  className="flex w-full items-center justify-center gap-2 rounded-xl border border-gray-200 bg-white px-6 py-3 text-sm font-semibold text-gray-900 shadow-sm transition hover:bg-gray-50"
+                  className="flex w-full min-h-[48px] items-center justify-center gap-3 rounded-xl border border-gray-200 bg-white px-6 py-3 text-sm font-semibold text-gray-900 shadow-sm transition hover:bg-gray-50"
                 >
-                  <span className="h-4 w-4 rounded-sm bg-[conic-gradient(from_180deg_at_50%_50%,#ea4335,#fbbc05,#34a853,#4285f4,#ea4335)]" />
-                  Googleで続行（モック）
+                  <GoogleMark className="h-5 w-5 shrink-0" />
+                  <span className="min-w-0 text-left">Googleで続行</span>
                 </button>
                 <button
                   type="button"
                   onClick={() => setEmail("apple.user@example.com")}
-                  className="flex w-full items-center justify-center gap-2 rounded-xl border border-gray-200 bg-white px-6 py-3 text-sm font-semibold text-gray-900 shadow-sm transition hover:bg-gray-50"
+                  className="flex w-full min-h-[48px] items-center justify-center gap-3 rounded-xl border border-gray-200 bg-white px-6 py-3 text-sm font-semibold text-gray-900 shadow-sm transition hover:bg-gray-50"
                 >
-                  <span className="text-base leading-none"></span>
-                  Appleで続行（モック）
+                  <AppleMark className="h-5 w-5 shrink-0 text-gray-900" />
+                  <span className="min-w-0 text-left">Appleで続行</span>
                 </button>
               </div>
               </form>

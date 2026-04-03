@@ -27,7 +27,7 @@ export default function EstimateV2UploadVehicleMockPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#f5f5f5]">
+    <div className="bg-[#f5f5f5]">
       <EstimateV2Header
         make={input?.make}
         model={input?.model}
@@ -42,7 +42,7 @@ export default function EstimateV2UploadVehicleMockPage() {
 
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="rounded-2xl bg-white p-4 shadow-card ring-1 ring-gray-100 sm:p-6">
-            <h1 className="text-lg font-extrabold text-gray-900">車両の詳細（モック）</h1>
+            <h1 className="text-lg font-extrabold text-gray-900">車両の詳細</h1>
             <p className="mt-2 text-sm leading-relaxed text-gray-600">
               事故・修復歴や内装の状態などを入力してください。送信はローカルのみで、サーバーには保存されません。
             </p>
@@ -122,7 +122,7 @@ export default function EstimateV2UploadVehicleMockPage() {
               rows={4}
               value={comments}
               onChange={(e) => setComments(e.target.value)}
-              placeholder="気になる点があれば自由に記入（モック）"
+              placeholder="気になる点があれば自由に記入"
               className="w-full rounded-xl border border-gray-200 px-3 py-2 text-sm shadow-sm focus:border-[rgb(64,162,96)] focus:outline-none focus:ring-1 focus:ring-[rgb(64,162,96)]"
             />
           </VehicleSection>

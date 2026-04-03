@@ -71,7 +71,7 @@ export default function EstimateV2InputPage() {
   };
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="bg-white">
       <EstimateV2Header />
       <EstimateV2Hero />
 
@@ -84,7 +84,7 @@ export default function EstimateV2InputPage() {
                   車の情報を入力
                 </h1>
                 <p className="text-sm leading-relaxed text-gray-600">
-                  メーカー・車種名・年式（任意）・走行距離から、オークション評点4〜5点想定の予想落札価格を推定します。
+                  メーカー・車種名・年式（任意）・走行距離から、KATIXのAI相場予想（美車〜良質車相当を想定した参考レンジ）を表示します。
                 </p>
               </div>
             </div>

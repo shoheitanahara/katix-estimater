@@ -17,7 +17,7 @@ export default function EstimateV2UploadPhotosMockPage() {
     : "お車";
 
   return (
-    <div className="min-h-screen bg-[#f5f5f5]">
+    <div className="bg-[#f5f5f5]">
       <EstimateV2Header
         make={input?.make}
         model={input?.model}
@@ -43,7 +43,7 @@ export default function EstimateV2UploadPhotosMockPage() {
               className="shrink-0 rounded-xl px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:opacity-95"
               style={{ backgroundColor: "rgb(64 162 96)" }}
             >
-              撮影ガイド（モック）
+              撮影ガイド
             </button>
           </div>
         </div>
@@ -102,13 +102,7 @@ export default function EstimateV2UploadPhotosMockPage() {
           </div>
         </section>
 
-        <div className="mt-8 flex flex-col gap-3 pb-10 sm:flex-row sm:justify-end">
-          <Link
-            href="/estimate/v2/result"
-            className="inline-flex items-center justify-center rounded-xl border border-gray-200 bg-white px-6 py-3 text-sm font-semibold text-gray-800 shadow-sm transition hover:bg-gray-50"
-          >
-            相場結果に戻る
-          </Link>
+        <div className="mt-8 flex flex-col gap-3 pb-6 sm:flex-row sm:justify-end">
           <button
             type="button"
             onClick={() => router.push("/estimate/v2/upload-photos/vehicle")}
@@ -119,6 +113,15 @@ export default function EstimateV2UploadPhotosMockPage() {
             <span className="ml-2">→</span>
           </button>
         </div>
+
+        <p className="pb-10 text-center">
+          <Link
+            href="/estimate/v2/result"
+            className="text-xs text-gray-500 underline underline-offset-2 transition hover:text-gray-700"
+          >
+            相場結果に戻る
+          </Link>
+        </p>
       </main>
     </div>
   );

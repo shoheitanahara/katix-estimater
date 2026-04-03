@@ -89,7 +89,7 @@ export async function getEstimateFromOpenAI(
 }
 
 /**
- * v2: メーカー/車種/走行距離（テキストのみ）から「評点4〜5想定」の予想落札価格を取得
+ * v2: メーカー/車種/走行距離（テキストのみ）から「美車〜良質車」想定のAI相場予想（参考）を取得
  */
 export async function getEstimateV2FromOpenAI(params: {
   make: string;
@@ -349,7 +349,7 @@ function parseAndValidateEstimateV2Result(raw: string): EstimateV2Result {
 
   return {
     assumption: {
-      auctionScore: ensureString(assumption.auctionScore, "4〜5点"),
+      auctionScore: ensureString(assumption.auctionScore, "美車〜良質車"),
       notes: ensureString(assumption.notes, ""),
     },
     input: {

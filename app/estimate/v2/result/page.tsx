@@ -71,32 +71,24 @@ export default function EstimateV2ResultPage() {
   }, [input, retrySeed]);
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="bg-white">
       <EstimateV2Header make={input?.make} model={input?.model} year={input?.year} mileageKm={input?.mileageKm} />
 
       <main className="bg-white">
         <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6">
           <div className="space-y-8">
-            <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
-              <div>
-                <h1 className="text-2xl font-extrabold tracking-tight text-gray-900 sm:text-3xl">
-                  相場予想（v2）
-                </h1>
-                <p className="mt-2 text-sm leading-relaxed text-gray-600">
-                  オークション評点4〜5点を想定した予想落札価格です。
+            <div>
+              <h1 className="text-2xl font-extrabold tracking-tight text-gray-900 sm:text-3xl">
+                AI相場予想の結果
+              </h1>
+              <p className="mt-2 text-sm leading-relaxed text-gray-600">
+                美車〜良質車相当を想定した、参考の予想落札価格レンジです。
+              </p>
+              {email && (
+                <p className="mt-2 text-xs text-gray-500">
+                  登録メール: <span className="font-medium text-gray-700">{email}</span>
                 </p>
-                {email && (
-                  <p className="mt-2 text-xs text-gray-500">
-                    登録メール（モック）: <span className="font-medium text-gray-700">{email}</span>
-                  </p>
-                )}
-              </div>
-              <Link
-                href="/estimate/v2"
-                className="inline-flex items-center justify-center rounded-xl bg-white px-5 py-2.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-gray-200 transition hover:bg-gray-50"
-              >
-                最初からやり直す
-              </Link>
+              )}
             </div>
 
             <EstimateV2Card>
@@ -130,14 +122,14 @@ export default function EstimateV2ResultPage() {
             ) : (
               <div className="grid gap-4 sm:gap-6 md:grid-cols-2">
                 <section className="rounded-2xl bg-katix-light/60 p-4 ring-1 ring-katix/15 sm:p-5">
-                  <h2 className="text-sm font-semibold text-gray-900">KATIX相場予想の見方</h2>
+                  <h2 className="text-sm font-semibold text-gray-900">AI相場予想の見方</h2>
                   <ul className="mt-4 space-y-4 text-sm text-gray-700">
                     <li className="flex gap-3">
                       <CheckCircleIcon />
                       <div>
                         <p className="font-semibold text-gray-900">相場は保守的に</p>
                         <p className="mt-1 text-xs leading-relaxed text-gray-600">
-                          評点4〜5点想定でも、条件不明分は上振れを控えめにしてレンジを出します。
+                          美車〜良質車相当の想定でも、条件が読み取れない分は上振れを控えめにしてレンジを出します。
                         </p>
                       </div>
                     </li>
@@ -197,14 +189,14 @@ export default function EstimateV2ResultPage() {
                       className="inline-flex items-center justify-center rounded-xl px-6 py-3 text-sm font-semibold text-white shadow-card transition hover:opacity-95"
                       style={{ backgroundColor: "rgb(64 162 96)" }}
                     >
-                      続けて写真・詳細を入力（モック）
+                      続けて写真・詳細を入力
                       <span className="ml-2 text-base leading-none">→</span>
                     </Link>
                     <Link
                       href="/estimate/v2"
                       className="inline-flex items-center justify-center rounded-xl bg-gray-900 px-6 py-3 text-sm font-semibold text-white shadow-card transition hover:bg-gray-800"
                     >
-                      入力をやり直す
+                      最初からやり直す
                       <span className="ml-2 text-base leading-none">→</span>
                     </Link>
                     <p className="text-xs leading-relaxed text-gray-500">
