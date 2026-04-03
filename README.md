@@ -18,7 +18,8 @@ cp .env.example .env.local
 npm run dev
 ```
 
-ブラウザで [http://localhost:3000](http://localhost:3000) を開いてください。
+本番: [https://katix-estimater.vercel.app](https://katix-estimater.vercel.app)  
+ローカル: [http://localhost:3000](http://localhost:3000)（`npm run dev`）
 
 ## 環境変数
 
@@ -36,6 +37,7 @@ npm run dev
 
 - **POST /api/estimate** … `multipart/form-data`（exteriorImage, meterImage, vin, memo）。成功時は `{ ok: true, id, result, images: { exterior, meter } }` を返却（画像は base64）。
 - **GET /api/result/[id]** … 予想結果を返却（同一インスタンスのメモリに保存されている場合。画像は含まない）。
+- **v2（テキストのみ）** … **[docs/API-ESTIMATE-V2.md](docs/API-ESTIMATE-V2.md)**（URL・JSON 仕様はこの1ファイル）
 
 ## 注意（MVP）
 
