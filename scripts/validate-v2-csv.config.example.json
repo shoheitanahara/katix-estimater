@@ -1,0 +1,17 @@
+{
+  "_comment": "コピーして編集。actualMan=万円列 / actualYen=円列（落札価格など）はどちらか一方。KATIX export は scripts/katix-export-validate.config.json を参照。",
+  "columnMap": {
+    "make": "make",
+    "model": "model",
+    "year": "year",
+    "mileageKm": "mileageKm",
+    "actualMan": "actual_man",
+    "actualYen": "落札価格",
+    "accidentHistory": "事故歴",
+    "repairHistory": "修理歴"
+  },
+  "idColumn": "uar_id",
+  "delayMsBetweenRequests": 1200,
+  "maxRows": 300,
+  "targetAboveCenterPct": 85
+}

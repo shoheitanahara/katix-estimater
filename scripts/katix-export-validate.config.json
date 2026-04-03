@@ -1,0 +1,15 @@
+{
+  "columnMap": {
+    "make": "メーカー",
+    "model": "車種",
+    "year": "マスタ年式",
+    "mileageKm": "走行距離",
+    "actualYen": "落札価格",
+    "accidentHistory": "事故歴",
+    "repairHistory": "修理歴"
+  },
+  "idColumn": "uar_id",
+  "delayMsBetweenRequests": 1200,
+  "maxRows": 300,
+  "targetAboveCenterPct": 85
+}

@@ -36,3 +36,7 @@ Thumbs.db
 
 # TypeScript
 next-env.d.ts
+
+# ローカル精度検証（CSV・出力に個人情報が含まれる場合があります）
+scripts/validate-v2-output/
+validate-v2-csv.config.json
