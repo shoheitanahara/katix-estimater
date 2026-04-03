@@ -21,6 +21,16 @@ export type ValidateV2ReportSummary = {
   aboveCenterPct: number;
   targetAboveCenterPct: number;
   targetAboveMet: boolean;
+  /** 入札1〜5位から算出した業者レンジが取れた件数 */
+  rowsWithBidRange?: number;
+  /** API 成功かつ業者レンジあり（比較可能な件数） */
+  rowsOkWithBidRange?: number;
+  /** AI 中心が業者レンジ内（上記のうち） */
+  aiCenterInBidRangeCount?: number;
+  aiCenterInBidRangePct?: number | null;
+  /** AI 予想レンジと業者レンジが重なる（上記のうち） */
+  aiRangeOverlapsBidRangeCount?: number;
+  aiRangeOverlapsBidRangePct?: number | null;
 };
 
 export type ValidateV2ReportRow = {
@@ -40,6 +50,13 @@ export type ValidateV2ReportRow = {
   centerErrorMan?: number;
   inRange?: boolean;
   auctionAboveCenter?: boolean;
+  /** CSV の入札1〜5位（入札額・上限入札額）の最小・最大（万円） */
+  bidRangeMinMan?: number | null;
+  bidRangeMaxMan?: number | null;
+  /** AI 予想中心が業者入札レンジ内（API 成功・入札あり時） */
+  aiCenterInBidRange?: boolean | null;
+  /** AI 予想レンジと業者入札レンジが重なる（API 成功・入札あり時） */
+  aiRangeOverlapsBidRange?: boolean | null;
 };
 
 export type ValidateV2Report = {

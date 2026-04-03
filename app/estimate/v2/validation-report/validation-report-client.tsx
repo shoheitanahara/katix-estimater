@@ -17,6 +17,7 @@ const thInput = "border-b border-slate-200 bg-slate-100 px-2 py-2 text-slate-700
 const thActual = "border-b border-amber-200 bg-amber-100 px-2 py-2 text-amber-950";
 const thAi = "border-b border-violet-200 bg-violet-100 px-2 py-2 text-violet-950";
 const thDiff = "border-b border-rose-200 bg-rose-100 px-2 py-2 text-rose-950";
+const thBid = "border-b border-cyan-200 bg-cyan-100 px-2 py-2 text-cyan-950";
 
 /** 表ヘッダー1行目（グループ）の高さに合わせる（sticky 2行目の top 用） */
 const STICKY_GROUP_ROW_CLASS = "h-11 min-h-[2.75rem]";
@@ -25,9 +26,10 @@ const tdInput = "border-b border-slate-100 bg-slate-50/90 px-2 py-2 text-slate-9
 const tdActual = "border-b border-amber-100 bg-amber-50/95 px-2 py-2";
 const tdAi = "border-b border-violet-100 bg-violet-50/90 px-2 py-2";
 const tdDiff = "border-b border-rose-100 bg-rose-50/90 px-2 py-2";
+const tdBid = "border-b border-cyan-100 bg-cyan-50/90 px-2 py-2";
 
-function BadgeYesNo({ value }: { value: boolean | undefined }) {
-  if (value === undefined) return <span className="text-gray-400">—</span>;
+function BadgeYesNo({ value }: { value: boolean | undefined | null }) {
+  if (value === undefined || value === null) return <span className="text-gray-400">—</span>;
   return (
     <span
       className={
@@ -215,6 +217,30 @@ export function ValidationReportClient({ data }: { data: ValidateV2Report }) {
           </div>
         </section>
 
+        {summary.rowsOkWithBidRange != null && summary.rowsOkWithBidRange > 0 && (
+          <section className="mb-8 grid gap-4 sm:grid-cols-2">
+            <div className="rounded-2xl border border-cyan-100 bg-cyan-50/80 p-4 shadow-sm">
+              <p className="text-xs text-gray-500">AI 中心が業者入札レンジ内</p>
+              <p className="mt-1 text-2xl font-semibold tabular-nums text-gray-900">
+                {nf1.format(summary.aiCenterInBidRangePct ?? 0)}%
+              </p>
+              <p className="mt-0.5 text-xs text-gray-500">
+                {nf.format(summary.aiCenterInBidRangeCount ?? 0)} / {nf.format(summary.rowsOkWithBidRange)} 件
+                （業者レンジ取得 {nf.format(summary.rowsWithBidRange ?? 0)} 件）
+              </p>
+            </div>
+            <div className="rounded-2xl border border-cyan-100 bg-cyan-50/80 p-4 shadow-sm">
+              <p className="text-xs text-gray-500">AI 予想レンジと業者入札レンジが重なる</p>
+              <p className="mt-1 text-2xl font-semibold tabular-nums text-gray-900">
+                {nf1.format(summary.aiRangeOverlapsBidRangePct ?? 0)}%
+              </p>
+              <p className="mt-0.5 text-xs text-gray-500">
+                {nf.format(summary.aiRangeOverlapsBidRangeCount ?? 0)} / {nf.format(summary.rowsOkWithBidRange)} 件
+              </p>
+            </div>
+          </section>
+        )}
+
         {/* Meta */}
         <section className="mb-8 rounded-2xl border border-gray-100 bg-white p-5 shadow-sm">
           <h2 className="text-sm font-semibold text-gray-900">検証条件・注釈</h2>
@@ -306,12 +332,16 @@ export function ValidationReportClient({ data }: { data: ValidateV2Report }) {
             <span className="rounded border border-rose-200 bg-rose-100 px-1.5 py-0.5">ローズ</span>
             ＝ 差分（実績−中心）
           </span>
+          <span>
+            <span className="rounded border border-cyan-200 bg-cyan-100 px-1.5 py-0.5">シアン</span>
+            ＝ 業者入札レンジ（1〜5位の最小〜最大・万円）
+          </span>
           <span className="text-gray-500">査定ID は管理画面を新しいタブで開きます</span>
         </p>
 
         {/* 縦スクロールはこの枠内。ヘッダー2行とも sticky で固定 */}
         <div className="max-h-[min(80vh,calc(100vh-10rem))] overflow-auto rounded-2xl border border-gray-200 shadow-sm">
-          <table className="min-w-[1280px] w-full border-collapse text-left text-xs">
+          <table className="min-w-[1680px] w-full border-collapse text-left text-xs">
             <thead>
               <tr className={`text-[11px] font-semibold ${STICKY_GROUP_ROW_CLASS}`}>
                 <th
@@ -340,6 +370,13 @@ export function ValidationReportClient({ data }: { data: ValidateV2Report }) {
                 >
                   実績
                   <span className="mt-1 block text-[10px] font-bold leading-tight">落札（万円）</span>
+                </th>
+                <th
+                  colSpan={4}
+                  className="sticky top-0 z-[31] border-b border-cyan-200 border-l-2 border-l-cyan-400 bg-cyan-100 px-2 py-2 text-center text-cyan-950 shadow-[0_1px_0_0_rgba(165,243,252,1)]"
+                  title="CSV 入札1〜5位（入札額・上限）から算出した最小〜最大（万円）"
+                >
+                  業者入札
                 </th>
                 <th
                   colSpan={3}
@@ -386,6 +423,34 @@ export function ValidationReportClient({ data }: { data: ValidateV2Report }) {
                   title="API 入力"
                 >
                   走行 km
+                </th>
+                <th
+                  className={`sticky top-11 z-[30] ${thBid} border-l-2 border-cyan-400 text-right shadow-[inset_0_1px_0_0_rgba(165,243,252,0.8)]`}
+                  title="業者入札レンジ下限（万円）"
+                >
+                  下限
+                </th>
+                <th
+                  className={`sticky top-11 z-[30] ${thBid} text-right shadow-[inset_0_1px_0_0_rgba(165,243,252,0.8)]`}
+                  title="業者入札レンジ上限（万円）"
+                >
+                  上限
+                </th>
+                <th
+                  className={`sticky top-11 z-[30] ${thBid} text-center shadow-[inset_0_1px_0_0_rgba(165,243,252,0.8)]`}
+                  title="AI 予想中心が業者レンジ内"
+                >
+                  中心が
+                  <br />
+                  業者内
+                </th>
+                <th
+                  className={`sticky top-11 z-[30] ${thBid} text-center shadow-[inset_0_1px_0_0_rgba(165,243,252,0.8)]`}
+                  title="AI 予想レンジと業者入札レンジが重なる"
+                >
+                  レンジ
+                  <br />
+                  重複
                 </th>
                 <th
                   className={`sticky top-11 z-[30] ${thAi} border-l-2 border-violet-400 text-right shadow-[inset_0_1px_0_0_rgba(196,181,253,0.7)]`}
@@ -463,6 +528,18 @@ export function ValidationReportClient({ data }: { data: ValidateV2Report }) {
                           </span>
                         )}
                       </div>
+                    </td>
+                    <td className={`${tdBid} border-l-2 border-cyan-300 text-right tabular-nums text-cyan-950`}>
+                      {r.bidRangeMinMan != null ? nf1.format(r.bidRangeMinMan) : "—"}
+                    </td>
+                    <td className={`${tdBid} text-right tabular-nums text-cyan-950`}>
+                      {r.bidRangeMaxMan != null ? nf1.format(r.bidRangeMaxMan) : "—"}
+                    </td>
+                    <td className={`${tdBid} text-center`}>
+                      <BadgeYesNo value={r.aiCenterInBidRange} />
+                    </td>
+                    <td className={`${tdBid} text-center`}>
+                      <BadgeYesNo value={r.aiRangeOverlapsBidRange} />
                     </td>
                     <td className={`${tdAi} border-l-2 border-violet-300 text-right align-middle`}>
                       <span className="text-base font-bold tabular-nums text-violet-950">

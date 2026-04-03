@@ -13,12 +13,20 @@
  * 検証指標（実績あり・API成功行のみ）:
  *   - 「落札 > 予想中心」の割合（%）… 目標例: 85% 以上
  *   - 「レンジ内」の割合（%）… 実績（万円）が rangeMin〜rangeMax に含まれる割合
+ *
+ * 業者入札レンジ（CSV に 入札1〜5位_入札額 / 上限入札額 がある場合）:
+ *   - 1〜5位の全数値の最小・最大を円→万円に換算して出力
+ *   - AI 中心がそのレンジ内か、AI 予想レンジと重なるかを行ごとに付与
  * 既定 maxRows: 300（--max で変更可）
  */
 
 import { mkdirSync, readFileSync, writeFileSync } from "fs";
 import { join, resolve } from "path";
 import { parse } from "csv-parse/sync";
+import {
+  computeAiVsBidRangeFlags,
+  parseAuctionBidRangeManFromRecord,
+} from "../lib/auction-bid-range";
 import { getEstimateV2FromOpenAI } from "../lib/openai";
 import type { EstimateV2Result } from "../lib/types";
 
@@ -224,6 +232,12 @@ type RowResult = {
   accidentHistoryLabel?: string;
   /** 修理歴 */
   repairHistoryLabel?: string;
+  /** CSV 入札1〜5位（入札額・上限）全体の最小（万円） */
+  bidRangeMinMan?: number | null;
+  /** CSV 入札1〜5位（入札額・上限）全体の最大（万円） */
+  bidRangeMaxMan?: number | null;
+  aiCenterInBidRange?: boolean | null;
+  aiRangeOverlapsBidRange?: boolean | null;
 };
 
 function escapeCsvField(s: string): string {
@@ -247,6 +261,15 @@ function boolToJa(value: boolean | undefined): string {
   return value ? "はい" : "いいえ";
 }
 
+function bidRangeFieldsFromRecord(record: Record<string, string>): {
+  bidRangeMinMan: number | null;
+  bidRangeMaxMan: number | null;
+} {
+  const bid = parseAuctionBidRangeManFromRecord(record);
+  if (!bid) return { bidRangeMinMan: null, bidRangeMaxMan: null };
+  return { bidRangeMinMan: bid.minMan, bidRangeMaxMan: bid.maxMan };
+}
+
 /** 経営向け: 必要な列のみ・日本語ヘッダ */
 function resultsToCsv(rows: RowResult[]): string {
   const headers = [
@@ -266,6 +289,10 @@ function resultsToCsv(rows: RowResult[]): string {
     "実績と中心の差_万円",
     "レンジ内",
     "落札が予想中心より上",
+    "業者入札下限_万円",
+    "業者入札上限_万円",
+    "AI中心が業者入札レンジ内",
+    "AI予想レンジと業者入札レンジが重なる",
     "API成功",
     "エラー",
     "AIコメント",
@@ -292,6 +319,10 @@ function resultsToCsv(rows: RowResult[]): string {
         r.centerErrorMan ?? "",
         boolToJa(r.inRange),
         boolToJa(r.auctionAboveCenter),
+        r.bidRangeMinMan ?? "",
+        r.bidRangeMaxMan ?? "",
+        boolToJa(r.aiCenterInBidRange ?? undefined),
+        boolToJa(r.aiRangeOverlapsBidRange ?? undefined),
         r.ok ? "はい" : "いいえ",
         escapeCsvField(r.error ?? ""),
         escapeCsvField(comment),
@@ -384,6 +415,8 @@ async function main(): Promise<void> {
     const mileageKm = toMileageKm(cellFromRecord(record, map.mileageKm));
     const { actualMan, actualYen } = resolveActualMan(map, record);
 
+    const bidOnly = bidRangeFieldsFromRecord(record);
+
     if ((map.actualYen || map.actualMan) && actualMan === null) {
       results.push({
         rowIndex,
@@ -397,6 +430,9 @@ async function main(): Promise<void> {
         error: "実績（落札価格など）が空です",
         accidentHistoryLabel,
         repairHistoryLabel,
+        ...bidOnly,
+        aiCenterInBidRange: null,
+        aiRangeOverlapsBidRange: null,
       });
       console.warn(`行 ${rowIndex}: スキップ（実績なし）`);
       continue;
@@ -416,6 +452,9 @@ async function main(): Promise<void> {
         error: "make / model / mileageKm が不足または不正です",
         accidentHistoryLabel,
         repairHistoryLabel,
+        ...bidOnly,
+        aiCenterInBidRange: null,
+        aiRangeOverlapsBidRange: null,
       });
       console.warn(`行 ${rowIndex}: スキップ（入力不足）`);
       continue;
@@ -433,6 +472,9 @@ async function main(): Promise<void> {
         error: "年式の値が不正です",
         accidentHistoryLabel,
         repairHistoryLabel,
+        ...bidOnly,
+        aiCenterInBidRange: null,
+        aiRangeOverlapsBidRange: null,
       });
       console.warn(`行 ${rowIndex}: スキップ（年式不正）`);
       continue;
@@ -445,6 +487,9 @@ async function main(): Promise<void> {
         ...(year !== null ? { year } : {}),
         mileageKm,
       });
+
+      const bidParsed = parseAuctionBidRangeManFromRecord(record);
+      const bidFlags = computeAiVsBidRangeFlags(result.auctionExpected, bidParsed);
 
       const row: RowResult = {
         rowIndex,
@@ -459,6 +504,10 @@ async function main(): Promise<void> {
         result,
         accidentHistoryLabel,
         repairHistoryLabel,
+        bidRangeMinMan: bidParsed ? bidParsed.minMan : null,
+        bidRangeMaxMan: bidParsed ? bidParsed.maxMan : null,
+        aiCenterInBidRange: bidFlags.aiCenterInBidRange,
+        aiRangeOverlapsBidRange: bidFlags.aiRangeOverlapsBidRange,
       };
 
       if (actualMan !== null) {
@@ -496,6 +545,9 @@ async function main(): Promise<void> {
         error: message,
         accidentHistoryLabel,
         repairHistoryLabel,
+        ...bidOnly,
+        aiCenterInBidRange: null,
+        aiRangeOverlapsBidRange: null,
       });
       console.error(`行 ${rowIndex}: エラー ${message}`);
     }
@@ -514,6 +566,29 @@ async function main(): Promise<void> {
     withActual > 0 ? Math.round((inRangeCount / withActual) * 10_000) / 100 : null;
   const targetAboveMet = abovePct !== null && abovePct >= targetAbovePct;
 
+  let rowsWithBidRange = 0;
+  let rowsOkWithBidRange = 0;
+  let aiCenterInBidRangeCount = 0;
+  let aiRangeOverlapsBidRangeCount = 0;
+  for (const r of results) {
+    if (r.bidRangeMinMan != null && r.bidRangeMaxMan != null) {
+      rowsWithBidRange++;
+      if (r.ok && r.aiCenterInBidRange !== null && r.aiRangeOverlapsBidRange !== null) {
+        rowsOkWithBidRange++;
+        if (r.aiCenterInBidRange) aiCenterInBidRangeCount++;
+        if (r.aiRangeOverlapsBidRange) aiRangeOverlapsBidRangeCount++;
+      }
+    }
+  }
+  const aiCenterInBidRangePct =
+    rowsOkWithBidRange > 0
+      ? Math.round((aiCenterInBidRangeCount / rowsOkWithBidRange) * 10_000) / 100
+      : null;
+  const aiRangeOverlapsBidRangePct =
+    rowsOkWithBidRange > 0
+      ? Math.round((aiRangeOverlapsBidRangeCount / rowsOkWithBidRange) * 10_000) / 100
+      : null;
+
   writeFileSync(
     jsonPath,
     JSON.stringify(
@@ -527,7 +602,7 @@ async function main(): Promise<void> {
           delayMsBetweenRequests: delayMs,
           processed: results.length,
           comparisonNote:
-            "落札が予想中心より上: 落札（万円）> AI予想中心（万円）。レンジ内: 落札（万円）が予想下限〜上限に含まれる。CSVの事故歴・修理歴は結果に accidentHistoryLabel / repairHistoryLabel として含まれる（true/false は あり/なし に整形）。出力CSVは日本語ヘッダ（経営向け）。",
+            "落札が予想中心より上: 落札（万円）> AI予想中心（万円）。レンジ内: 落札（万円）が予想下限〜上限に含まれる。業者入札レンジ: 入札1〜5位の入札額・上限入札額（円）の最小・最大を万円に換算。AI中心が業者レンジ内／AI予想レンジと業者レンジの重なりは API 成功時のみ算出。CSVの事故歴・修理歴は accidentHistoryLabel / repairHistoryLabel。出力CSVは日本語ヘッダ（経営向け）。",
         },
         summary:
           withActual > 0
@@ -542,6 +617,12 @@ async function main(): Promise<void> {
                 aboveCenterPct: abovePct,
                 targetAboveCenterPct: targetAbovePct,
                 targetAboveMet,
+                rowsWithBidRange,
+                rowsOkWithBidRange,
+                aiCenterInBidRangeCount,
+                aiCenterInBidRangePct,
+                aiRangeOverlapsBidRangeCount,
+                aiRangeOverlapsBidRangePct,
               }
             : null,
         results,

@@ -15,7 +15,7 @@
     "maxRows": 300,
     "delayMsBetweenRequests": 1200,
     "processed": 300,
-    "comparisonNote": "落札が予想中心より上: 落札（万円）> AI予想中心（万円）。レンジ内: 落札（万円）が予想下限〜上限に含まれる。CSVの事故歴・修理歴は結果に accidentHistoryLabel / repairHistoryLabel として含まれる（true/false は あり/なし に整形）。出力CSVは日本語ヘッダ（経営向け）。"
+    "comparisonNote": "落札が予想中心より上: 落札（万円）> AI予想中心（万円）。レンジ内: 落札（万円）が予想下限〜上限に含まれる。CSVの事故歴・修理歴は結果に accidentHistoryLabel / repairHistoryLabel として含まれる（true/false は あり/なし に整形）。出力CSVは日本語ヘッダ（経営向け）。 業者入札レンジは enrich-validate-v2-report-bids で CSV から追記済み。"
   },
   "summary": {
     "rowsWithActual": 299,
@@ -25,7 +25,13 @@
     "aboveCenterCount": 153,
     "aboveCenterPct": 51.17,
     "targetAboveCenterPct": 85,
-    "targetAboveMet": false
+    "targetAboveMet": false,
+    "rowsWithBidRange": 300,
+    "rowsOkWithBidRange": 299,
+    "aiCenterInBidRangeCount": 130,
+    "aiCenterInBidRangePct": 43.48,
+    "aiRangeOverlapsBidRangeCount": 243,
+    "aiRangeOverlapsBidRangePct": 81.27
   },
   "results": [
     {
@@ -61,7 +67,11 @@
       "repairHistoryLabel": "あり",
       "centerErrorMan": -14.9,
       "inRange": false,
-      "auctionAboveCenter": false
+      "auctionAboveCenter": false,
+      "bidRangeMinMan": 2.6,
+      "bidRangeMaxMan": 13.1,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": false
     },
     {
       "rowIndex": 3,
@@ -96,7 +106,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": -3,
       "inRange": true,
-      "auctionAboveCenter": false
+      "auctionAboveCenter": false,
+      "bidRangeMinMan": 15,
+      "bidRangeMaxMan": 27.3,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 4,
@@ -131,7 +145,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": 33,
       "inRange": true,
-      "auctionAboveCenter": true
+      "auctionAboveCenter": true,
+      "bidRangeMinMan": 100,
+      "bidRangeMaxMan": 305,
+      "aiCenterInBidRange": true,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 5,
@@ -166,7 +184,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": -84.7,
       "inRange": false,
-      "auctionAboveCenter": false
+      "auctionAboveCenter": false,
+      "bidRangeMinMan": 150,
+      "bidRangeMaxMan": 200.5,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": false
     },
     {
       "rowIndex": 6,
@@ -201,7 +223,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": 70,
       "inRange": false,
-      "auctionAboveCenter": true
+      "auctionAboveCenter": true,
+      "bidRangeMinMan": 380,
+      "bidRangeMaxMan": 482.8,
+      "aiCenterInBidRange": true,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 7,
@@ -236,7 +262,11 @@
       "repairHistoryLabel": "あり",
       "centerErrorMan": 60,
       "inRange": false,
-      "auctionAboveCenter": true
+      "auctionAboveCenter": true,
+      "bidRangeMinMan": 40,
+      "bidRangeMaxMan": 95.5,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 8,
@@ -271,7 +301,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": 94.8,
       "inRange": false,
-      "auctionAboveCenter": true
+      "auctionAboveCenter": true,
+      "bidRangeMinMan": 200,
+      "bidRangeMaxMan": 238.8,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": false
     },
     {
       "rowIndex": 9,
@@ -306,7 +340,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": -1,
       "inRange": true,
-      "auctionAboveCenter": false
+      "auctionAboveCenter": false,
+      "bidRangeMinMan": 10,
+      "bidRangeMaxMan": 121.5,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 10,
@@ -341,7 +379,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": -0.7,
       "inRange": true,
-      "auctionAboveCenter": false
+      "auctionAboveCenter": false,
+      "bidRangeMinMan": 45,
+      "bidRangeMaxMan": 58.5,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 11,
@@ -376,7 +418,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": 0.3,
       "inRange": true,
-      "auctionAboveCenter": true
+      "auctionAboveCenter": true,
+      "bidRangeMinMan": 1,
+      "bidRangeMaxMan": 16,
+      "aiCenterInBidRange": true,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 12,
@@ -411,7 +457,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": -12,
       "inRange": false,
-      "auctionAboveCenter": false
+      "auctionAboveCenter": false,
+      "bidRangeMinMan": 15,
+      "bidRangeMaxMan": 31,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 13,
@@ -446,7 +496,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": 9.5,
       "inRange": true,
-      "auctionAboveCenter": true
+      "auctionAboveCenter": true,
+      "bidRangeMinMan": 100,
+      "bidRangeMaxMan": 167.5,
+      "aiCenterInBidRange": true,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 14,
@@ -481,7 +535,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": 17,
       "inRange": false,
-      "auctionAboveCenter": true
+      "auctionAboveCenter": true,
+      "bidRangeMinMan": 13,
+      "bidRangeMaxMan": 47,
+      "aiCenterInBidRange": true,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 15,
@@ -516,7 +574,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": -9.9,
       "inRange": false,
-      "auctionAboveCenter": false
+      "auctionAboveCenter": false,
+      "bidRangeMinMan": 7,
+      "bidRangeMaxMan": 17.6,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": false
     },
     {
       "rowIndex": 16,
@@ -551,7 +613,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": 5,
       "inRange": true,
-      "auctionAboveCenter": true
+      "auctionAboveCenter": true,
+      "bidRangeMinMan": 8,
+      "bidRangeMaxMan": 23,
+      "aiCenterInBidRange": true,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 17,
@@ -586,7 +652,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": -55,
       "inRange": false,
-      "auctionAboveCenter": false
+      "auctionAboveCenter": false,
+      "bidRangeMinMan": 30,
+      "bidRangeMaxMan": 85.9,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": false
     },
     {
       "rowIndex": 18,
@@ -621,7 +691,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": 112,
       "inRange": false,
-      "auctionAboveCenter": true
+      "auctionAboveCenter": true,
+      "bidRangeMinMan": 350,
+      "bidRangeMaxMan": 396.5,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": false
     },
     {
       "rowIndex": 19,
@@ -656,7 +730,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": 2,
       "inRange": true,
-      "auctionAboveCenter": true
+      "auctionAboveCenter": true,
+      "bidRangeMinMan": 15,
+      "bidRangeMaxMan": 31.3,
+      "aiCenterInBidRange": true,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 20,
@@ -691,7 +769,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": 1,
       "inRange": true,
-      "auctionAboveCenter": true
+      "auctionAboveCenter": true,
+      "bidRangeMinMan": 4,
+      "bidRangeMaxMan": 15.2,
+      "aiCenterInBidRange": true,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 21,
@@ -726,7 +808,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": 90,
       "inRange": false,
-      "auctionAboveCenter": true
+      "auctionAboveCenter": true,
+      "bidRangeMinMan": 100,
+      "bidRangeMaxMan": 524.5,
+      "aiCenterInBidRange": true,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 22,
@@ -761,7 +847,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": -4,
       "inRange": true,
-      "auctionAboveCenter": false
+      "auctionAboveCenter": false,
+      "bidRangeMinMan": 1,
+      "bidRangeMaxMan": 21,
+      "aiCenterInBidRange": true,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 23,
@@ -796,7 +886,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": 29.8,
       "inRange": true,
-      "auctionAboveCenter": true
+      "auctionAboveCenter": true,
+      "bidRangeMinMan": 211,
+      "bidRangeMaxMan": 238.8,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 24,
@@ -831,7 +925,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": -5,
       "inRange": true,
-      "auctionAboveCenter": false
+      "auctionAboveCenter": false,
+      "bidRangeMinMan": 105.5,
+      "bidRangeMaxMan": 153.8,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 25,
@@ -866,7 +964,11 @@
       "repairHistoryLabel": "あり",
       "centerErrorMan": -10,
       "inRange": true,
-      "auctionAboveCenter": false
+      "auctionAboveCenter": false,
+      "bidRangeMinMan": 20,
+      "bidRangeMaxMan": 47.5,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 26,
@@ -901,7 +1003,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": 53.6,
       "inRange": false,
-      "auctionAboveCenter": true
+      "auctionAboveCenter": true,
+      "bidRangeMinMan": 0,
+      "bidRangeMaxMan": 245.6,
+      "aiCenterInBidRange": true,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 27,
@@ -936,7 +1042,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": -5.9,
       "inRange": true,
-      "auctionAboveCenter": false
+      "auctionAboveCenter": false,
+      "bidRangeMinMan": 7.8,
+      "bidRangeMaxMan": 10.1,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 28,
@@ -971,7 +1081,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": 12,
       "inRange": false,
-      "auctionAboveCenter": true
+      "auctionAboveCenter": true,
+      "bidRangeMinMan": 19,
+      "bidRangeMaxMan": 30,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 29,
@@ -1006,7 +1120,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": 2,
       "inRange": true,
-      "auctionAboveCenter": true
+      "auctionAboveCenter": true,
+      "bidRangeMinMan": 52,
+      "bidRangeMaxMan": 73,
+      "aiCenterInBidRange": true,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 30,
@@ -1041,7 +1159,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": 41,
       "inRange": false,
-      "auctionAboveCenter": true
+      "auctionAboveCenter": true,
+      "bidRangeMinMan": 100,
+      "bidRangeMaxMan": 249.5,
+      "aiCenterInBidRange": true,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 31,
@@ -1076,7 +1198,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": 17,
       "inRange": false,
-      "auctionAboveCenter": true
+      "auctionAboveCenter": true,
+      "bidRangeMinMan": 10,
+      "bidRangeMaxMan": 20,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": false
     },
     {
       "rowIndex": 32,
@@ -1111,7 +1237,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": 13,
       "inRange": false,
-      "auctionAboveCenter": true
+      "auctionAboveCenter": true,
+      "bidRangeMinMan": 30,
+      "bidRangeMaxMan": 62.2,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 33,
@@ -1146,7 +1276,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": -15,
       "inRange": true,
-      "auctionAboveCenter": false
+      "auctionAboveCenter": false,
+      "bidRangeMinMan": 200,
+      "bidRangeMaxMan": 280,
+      "aiCenterInBidRange": true,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 34,
@@ -1181,7 +1315,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": -35.6,
       "inRange": false,
-      "auctionAboveCenter": false
+      "auctionAboveCenter": false,
+      "bidRangeMinMan": 50,
+      "bidRangeMaxMan": 70,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": false
     },
     {
       "rowIndex": 35,
@@ -1216,7 +1354,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": -1.9,
       "inRange": true,
-      "auctionAboveCenter": false
+      "auctionAboveCenter": false,
+      "bidRangeMinMan": 40,
+      "bidRangeMaxMan": 59.6,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 36,
@@ -1251,7 +1393,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": 19,
       "inRange": true,
-      "auctionAboveCenter": true
+      "auctionAboveCenter": true,
+      "bidRangeMinMan": 20,
+      "bidRangeMaxMan": 85,
+      "aiCenterInBidRange": true,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 37,
@@ -1286,7 +1432,11 @@
       "repairHistoryLabel": "あり",
       "centerErrorMan": 14.6,
       "inRange": true,
-      "auctionAboveCenter": true
+      "auctionAboveCenter": true,
+      "bidRangeMinMan": 38.8,
+      "bidRangeMaxMan": 78.6,
+      "aiCenterInBidRange": true,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 38,
@@ -1321,7 +1471,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": -6.2,
       "inRange": true,
-      "auctionAboveCenter": false
+      "auctionAboveCenter": false,
+      "bidRangeMinMan": 50,
+      "bidRangeMaxMan": 78.8,
+      "aiCenterInBidRange": true,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 39,
@@ -1356,7 +1510,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": 15,
       "inRange": true,
-      "auctionAboveCenter": true
+      "auctionAboveCenter": true,
+      "bidRangeMinMan": 280,
+      "bidRangeMaxMan": 352.8,
+      "aiCenterInBidRange": true,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 40,
@@ -1391,7 +1549,11 @@
       "repairHistoryLabel": "あり",
       "centerErrorMan": -2,
       "inRange": true,
-      "auctionAboveCenter": false
+      "auctionAboveCenter": false,
+      "bidRangeMinMan": 14,
+      "bidRangeMaxMan": 115,
+      "aiCenterInBidRange": true,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 41,
@@ -1426,7 +1588,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": 79.1,
       "inRange": false,
-      "auctionAboveCenter": true
+      "auctionAboveCenter": true,
+      "bidRangeMinMan": 100,
+      "bidRangeMaxMan": 305,
+      "aiCenterInBidRange": true,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 42,
@@ -1461,7 +1627,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": 9.3,
       "inRange": true,
-      "auctionAboveCenter": true
+      "auctionAboveCenter": true,
+      "bidRangeMinMan": 15,
+      "bidRangeMaxMan": 25,
+      "aiCenterInBidRange": true,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 43,
@@ -1496,7 +1666,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": -6,
       "inRange": true,
-      "auctionAboveCenter": false
+      "auctionAboveCenter": false,
+      "bidRangeMinMan": 12.8,
+      "bidRangeMaxMan": 20,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 44,
@@ -1531,7 +1705,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": -39.2,
       "inRange": false,
-      "auctionAboveCenter": false
+      "auctionAboveCenter": false,
+      "bidRangeMinMan": 80,
+      "bidRangeMaxMan": 106,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": false
     },
     {
       "rowIndex": 45,
@@ -1566,7 +1744,11 @@
       "repairHistoryLabel": "あり",
       "centerErrorMan": -10.8,
       "inRange": false,
-      "auctionAboveCenter": false
+      "auctionAboveCenter": false,
+      "bidRangeMinMan": 10,
+      "bidRangeMaxMan": 18,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 46,
@@ -1601,7 +1783,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": 1.3,
       "inRange": true,
-      "auctionAboveCenter": true
+      "auctionAboveCenter": true,
+      "bidRangeMinMan": 6,
+      "bidRangeMaxMan": 15.5,
+      "aiCenterInBidRange": true,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 47,
@@ -1636,7 +1822,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": 50,
       "inRange": false,
-      "auctionAboveCenter": true
+      "auctionAboveCenter": true,
+      "bidRangeMinMan": 43,
+      "bidRangeMaxMan": 130,
+      "aiCenterInBidRange": true,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 48,
@@ -1671,7 +1861,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": -4,
       "inRange": true,
-      "auctionAboveCenter": false
+      "auctionAboveCenter": false,
+      "bidRangeMinMan": 50,
+      "bidRangeMaxMan": 66,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 49,
@@ -1706,7 +1900,11 @@
       "repairHistoryLabel": "あり",
       "centerErrorMan": 8,
       "inRange": true,
-      "auctionAboveCenter": true
+      "auctionAboveCenter": true,
+      "bidRangeMinMan": 50,
+      "bidRangeMaxMan": 75,
+      "aiCenterInBidRange": true,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 50,
@@ -1741,7 +1939,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": -16.2,
       "inRange": true,
-      "auctionAboveCenter": false
+      "auctionAboveCenter": false,
+      "bidRangeMinMan": 230,
+      "bidRangeMaxMan": 283.8,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 51,
@@ -1776,7 +1978,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": -10,
       "inRange": true,
-      "auctionAboveCenter": false
+      "auctionAboveCenter": false,
+      "bidRangeMinMan": 10,
+      "bidRangeMaxMan": 28.6,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 52,
@@ -1811,7 +2017,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": 98.8,
       "inRange": false,
-      "auctionAboveCenter": true
+      "auctionAboveCenter": true,
+      "bidRangeMinMan": 407,
+      "bidRangeMaxMan": 453.8,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": false
     },
     {
       "rowIndex": 53,
@@ -1846,7 +2056,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": 115,
       "inRange": false,
-      "auctionAboveCenter": true
+      "auctionAboveCenter": true,
+      "bidRangeMinMan": 385,
+      "bidRangeMaxMan": 547,
+      "aiCenterInBidRange": true,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 54,
@@ -1881,7 +2095,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": 6,
       "inRange": true,
-      "auctionAboveCenter": true
+      "auctionAboveCenter": true,
+      "bidRangeMinMan": 50,
+      "bidRangeMaxMan": 65,
+      "aiCenterInBidRange": true,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 55,
@@ -1916,7 +2134,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": -1,
       "inRange": true,
-      "auctionAboveCenter": false
+      "auctionAboveCenter": false,
+      "bidRangeMinMan": 0.1,
+      "bidRangeMaxMan": 7,
+      "aiCenterInBidRange": true,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 56,
@@ -1951,7 +2173,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": 98,
       "inRange": false,
-      "auctionAboveCenter": true
+      "auctionAboveCenter": true,
+      "bidRangeMinMan": 402.8,
+      "bidRangeMaxMan": 463.8,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 57,
@@ -1986,7 +2212,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": -28.2,
       "inRange": false,
-      "auctionAboveCenter": false
+      "auctionAboveCenter": false,
+      "bidRangeMinMan": 60,
+      "bidRangeMaxMan": 122.9,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": false
     },
     {
       "rowIndex": 58,
@@ -2021,7 +2251,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": -13,
       "inRange": false,
-      "auctionAboveCenter": false
+      "auctionAboveCenter": false,
+      "bidRangeMinMan": 5,
+      "bidRangeMaxMan": 14.5,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": false
     },
     {
       "rowIndex": 59,
@@ -2056,7 +2290,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": 3.5,
       "inRange": true,
-      "auctionAboveCenter": true
+      "auctionAboveCenter": true,
+      "bidRangeMinMan": 50,
+      "bidRangeMaxMan": 73.5,
+      "aiCenterInBidRange": true,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 60,
@@ -2091,7 +2329,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": 23.5,
       "inRange": true,
-      "auctionAboveCenter": true
+      "auctionAboveCenter": true,
+      "bidRangeMinMan": 95,
+      "bidRangeMaxMan": 142.2,
+      "aiCenterInBidRange": true,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 61,
@@ -2126,7 +2368,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": -0.4,
       "inRange": true,
-      "auctionAboveCenter": false
+      "auctionAboveCenter": false,
+      "bidRangeMinMan": 2,
+      "bidRangeMaxMan": 6.2,
+      "aiCenterInBidRange": true,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 62,
@@ -2161,7 +2407,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": 17.8,
       "inRange": true,
-      "auctionAboveCenter": true
+      "auctionAboveCenter": true,
+      "bidRangeMinMan": 115,
+      "bidRangeMaxMan": 197.8,
+      "aiCenterInBidRange": true,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 63,
@@ -2196,7 +2446,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": -3,
       "inRange": true,
-      "auctionAboveCenter": false
+      "auctionAboveCenter": false,
+      "bidRangeMinMan": 0,
+      "bidRangeMaxMan": 1.3,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 64,
@@ -2231,7 +2485,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": 32.1,
       "inRange": true,
-      "auctionAboveCenter": true
+      "auctionAboveCenter": true,
+      "bidRangeMinMan": 132,
+      "bidRangeMaxMan": 177.1,
+      "aiCenterInBidRange": true,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 65,
@@ -2266,7 +2524,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": -35,
       "inRange": false,
-      "auctionAboveCenter": false
+      "auctionAboveCenter": false,
+      "bidRangeMinMan": 10,
+      "bidRangeMaxMan": 30.5,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": false
     },
     {
       "rowIndex": 66,
@@ -2301,7 +2563,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": 65,
       "inRange": false,
-      "auctionAboveCenter": true
+      "auctionAboveCenter": true,
+      "bidRangeMinMan": 50,
+      "bidRangeMaxMan": 141.5,
+      "aiCenterInBidRange": true,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 67,
@@ -2336,7 +2602,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": 2.1,
       "inRange": true,
-      "auctionAboveCenter": true
+      "auctionAboveCenter": true,
+      "bidRangeMinMan": 20,
+      "bidRangeMaxMan": 30.5,
+      "aiCenterInBidRange": true,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 68,
@@ -2371,7 +2641,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": 18,
       "inRange": true,
-      "auctionAboveCenter": true
+      "auctionAboveCenter": true,
+      "bidRangeMinMan": 10.3,
+      "bidRangeMaxMan": 70,
+      "aiCenterInBidRange": true,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 69,
@@ -2406,7 +2680,11 @@
       "repairHistoryLabel": "あり",
       "centerErrorMan": 50,
       "inRange": false,
-      "auctionAboveCenter": true
+      "auctionAboveCenter": true,
+      "bidRangeMinMan": 55,
+      "bidRangeMaxMan": 80,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": false
     },
     {
       "rowIndex": 70,
@@ -2441,7 +2719,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": 67,
       "inRange": false,
-      "auctionAboveCenter": true
+      "auctionAboveCenter": true,
+      "bidRangeMinMan": 310,
+      "bidRangeMaxMan": 350.1,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 71,
@@ -2476,7 +2758,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": 33,
       "inRange": true,
-      "auctionAboveCenter": true
+      "auctionAboveCenter": true,
+      "bidRangeMinMan": 170.5,
+      "bidRangeMaxMan": 212.8,
+      "aiCenterInBidRange": true,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 72,
@@ -2511,7 +2797,11 @@
       "repairHistoryLabel": "あり",
       "centerErrorMan": -12,
       "inRange": true,
-      "auctionAboveCenter": false
+      "auctionAboveCenter": false,
+      "bidRangeMinMan": 40,
+      "bidRangeMaxMan": 65,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 73,
@@ -2546,7 +2836,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": -1,
       "inRange": true,
-      "auctionAboveCenter": false
+      "auctionAboveCenter": false,
+      "bidRangeMinMan": 80,
+      "bidRangeMaxMan": 146.5,
+      "aiCenterInBidRange": true,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 74,
@@ -2581,7 +2875,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": 20.2,
       "inRange": true,
-      "auctionAboveCenter": true
+      "auctionAboveCenter": true,
+      "bidRangeMinMan": 280,
+      "bidRangeMaxMan": 322.8,
+      "aiCenterInBidRange": true,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 75,
@@ -2616,7 +2914,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": 3,
       "inRange": true,
-      "auctionAboveCenter": true
+      "auctionAboveCenter": true,
+      "bidRangeMinMan": 0,
+      "bidRangeMaxMan": 10,
+      "aiCenterInBidRange": true,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 76,
@@ -2651,7 +2953,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": -6.2,
       "inRange": true,
-      "auctionAboveCenter": false
+      "auctionAboveCenter": false,
+      "bidRangeMinMan": 248,
+      "bidRangeMaxMan": 278.8,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 77,
@@ -2686,7 +2992,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": -7.5,
       "inRange": true,
-      "auctionAboveCenter": false
+      "auctionAboveCenter": false,
+      "bidRangeMinMan": 70,
+      "bidRangeMaxMan": 81,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 78,
@@ -2721,7 +3031,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": -13.2,
       "inRange": false,
-      "auctionAboveCenter": false
+      "auctionAboveCenter": false,
+      "bidRangeMinMan": 0,
+      "bidRangeMaxMan": 4,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": false
     },
     {
       "rowIndex": 79,
@@ -2756,7 +3070,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": 24,
       "inRange": true,
-      "auctionAboveCenter": true
+      "auctionAboveCenter": true,
+      "bidRangeMinMan": 90,
+      "bidRangeMaxMan": 140,
+      "aiCenterInBidRange": true,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 80,
@@ -2791,7 +3109,11 @@
       "repairHistoryLabel": "あり",
       "centerErrorMan": 10.5,
       "inRange": true,
-      "auctionAboveCenter": true
+      "auctionAboveCenter": true,
+      "bidRangeMinMan": 90,
+      "bidRangeMaxMan": 115.5,
+      "aiCenterInBidRange": true,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 81,
@@ -2826,7 +3148,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": 24,
       "inRange": true,
-      "auctionAboveCenter": true
+      "auctionAboveCenter": true,
+      "bidRangeMinMan": 120.5,
+      "bidRangeMaxMan": 152.2,
+      "aiCenterInBidRange": true,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 82,
@@ -2861,7 +3187,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": 51.8,
       "inRange": false,
-      "auctionAboveCenter": true
+      "auctionAboveCenter": true,
+      "bidRangeMinMan": 240,
+      "bidRangeMaxMan": 298.8,
+      "aiCenterInBidRange": true,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 83,
@@ -2896,7 +3226,11 @@
       "repairHistoryLabel": "あり",
       "centerErrorMan": 4,
       "inRange": true,
-      "auctionAboveCenter": true
+      "auctionAboveCenter": true,
+      "bidRangeMinMan": 8,
+      "bidRangeMaxMan": 20,
+      "aiCenterInBidRange": true,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 84,
@@ -2931,7 +3265,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": 53,
       "inRange": false,
-      "auctionAboveCenter": true
+      "auctionAboveCenter": true,
+      "bidRangeMinMan": 220,
+      "bidRangeMaxMan": 281.5,
+      "aiCenterInBidRange": true,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 85,
@@ -2966,7 +3304,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": -12,
       "inRange": false,
-      "auctionAboveCenter": false
+      "auctionAboveCenter": false,
+      "bidRangeMinMan": 20,
+      "bidRangeMaxMan": 34,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 86,
@@ -3001,7 +3343,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": 58.8,
       "inRange": false,
-      "auctionAboveCenter": true
+      "auctionAboveCenter": true,
+      "bidRangeMinMan": 54,
+      "bidRangeMaxMan": 128.8,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 87,
@@ -3036,7 +3382,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": 38.8,
       "inRange": false,
-      "auctionAboveCenter": true
+      "auctionAboveCenter": true,
+      "bidRangeMinMan": 86,
+      "bidRangeMaxMan": 112.8,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 88,
@@ -3071,7 +3421,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": 42,
       "inRange": false,
-      "auctionAboveCenter": true
+      "auctionAboveCenter": true,
+      "bidRangeMinMan": 100,
+      "bidRangeMaxMan": 160,
+      "aiCenterInBidRange": true,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 89,
@@ -3106,7 +3460,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": -5,
       "inRange": true,
-      "auctionAboveCenter": false
+      "auctionAboveCenter": false,
+      "bidRangeMinMan": 100,
+      "bidRangeMaxMan": 513.8,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 90,
@@ -3141,7 +3499,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": 7,
       "inRange": true,
-      "auctionAboveCenter": true
+      "auctionAboveCenter": true,
+      "bidRangeMinMan": 0,
+      "bidRangeMaxMan": 275,
+      "aiCenterInBidRange": true,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 91,
@@ -3176,7 +3538,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": -7,
       "inRange": true,
-      "auctionAboveCenter": false
+      "auctionAboveCenter": false,
+      "bidRangeMinMan": 50,
+      "bidRangeMaxMan": 68.6,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 92,
@@ -3211,7 +3577,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": -4,
       "inRange": true,
-      "auctionAboveCenter": false
+      "auctionAboveCenter": false,
+      "bidRangeMinMan": 1.5,
+      "bidRangeMaxMan": 10,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 93,
@@ -3246,7 +3616,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": 78.9,
       "inRange": true,
-      "auctionAboveCenter": true
+      "auctionAboveCenter": true,
+      "bidRangeMinMan": 100,
+      "bidRangeMaxMan": 718.9,
+      "aiCenterInBidRange": true,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 94,
@@ -3281,7 +3655,11 @@
       "repairHistoryLabel": "あり",
       "centerErrorMan": -6.5,
       "inRange": false,
-      "auctionAboveCenter": false
+      "auctionAboveCenter": false,
+      "bidRangeMinMan": 1,
+      "bidRangeMaxMan": 7.5,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": false
     },
     {
       "rowIndex": 95,
@@ -3316,7 +3694,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": 30,
       "inRange": false,
-      "auctionAboveCenter": true
+      "auctionAboveCenter": true,
+      "bidRangeMinMan": 100,
+      "bidRangeMaxMan": 198,
+      "aiCenterInBidRange": true,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 96,
@@ -3351,7 +3733,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": -28,
       "inRange": false,
-      "auctionAboveCenter": false
+      "auctionAboveCenter": false,
+      "bidRangeMinMan": 45,
+      "bidRangeMaxMan": 67,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": false
     },
     {
       "rowIndex": 97,
@@ -3386,7 +3772,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": -10,
       "inRange": true,
-      "auctionAboveCenter": false
+      "auctionAboveCenter": false,
+      "bidRangeMinMan": 20,
+      "bidRangeMaxMan": 40,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 98,
@@ -3421,7 +3811,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": 0,
       "inRange": true,
-      "auctionAboveCenter": false
+      "auctionAboveCenter": false,
+      "bidRangeMinMan": 25,
+      "bidRangeMaxMan": 39.5,
+      "aiCenterInBidRange": true,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 99,
@@ -3456,7 +3850,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": 25,
       "inRange": true,
-      "auctionAboveCenter": true
+      "auctionAboveCenter": true,
+      "bidRangeMinMan": 134.5,
+      "bidRangeMaxMan": 165.8,
+      "aiCenterInBidRange": true,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 100,
@@ -3491,7 +3889,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": 12.8,
       "inRange": true,
-      "auctionAboveCenter": true
+      "auctionAboveCenter": true,
+      "bidRangeMinMan": 25,
+      "bidRangeMaxMan": 41.1,
+      "aiCenterInBidRange": true,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 101,
@@ -3526,7 +3928,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": 1.5,
       "inRange": true,
-      "auctionAboveCenter": true
+      "auctionAboveCenter": true,
+      "bidRangeMinMan": 38,
+      "bidRangeMaxMan": 66.5,
+      "aiCenterInBidRange": true,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 102,
@@ -3561,7 +3967,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": -22.1,
       "inRange": false,
-      "auctionAboveCenter": false
+      "auctionAboveCenter": false,
+      "bidRangeMinMan": 3,
+      "bidRangeMaxMan": 11.9,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": false
     },
     {
       "rowIndex": 103,
@@ -3596,7 +4006,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": -48,
       "inRange": false,
-      "auctionAboveCenter": false
+      "auctionAboveCenter": false,
+      "bidRangeMinMan": 10,
+      "bidRangeMaxMan": 17,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": false
     },
     {
       "rowIndex": 104,
@@ -3631,7 +4045,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": -29.7,
       "inRange": false,
-      "auctionAboveCenter": false
+      "auctionAboveCenter": false,
+      "bidRangeMinMan": 30,
+      "bidRangeMaxMan": 42.3,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": false
     },
     {
       "rowIndex": 105,
@@ -3666,7 +4084,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": 45,
       "inRange": true,
-      "auctionAboveCenter": true
+      "auctionAboveCenter": true,
+      "bidRangeMinMan": 250,
+      "bidRangeMaxMan": 327.8,
+      "aiCenterInBidRange": true,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 106,
@@ -3701,7 +4123,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": 20,
       "inRange": true,
-      "auctionAboveCenter": true
+      "auctionAboveCenter": true,
+      "bidRangeMinMan": 33,
+      "bidRangeMaxMan": 80,
+      "aiCenterInBidRange": true,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 107,
@@ -3736,7 +4162,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": 72.8,
       "inRange": false,
-      "auctionAboveCenter": true
+      "auctionAboveCenter": true,
+      "bidRangeMinMan": 250,
+      "bidRangeMaxMan": 320.8,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 108,
@@ -3771,7 +4201,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": 113.9,
       "inRange": false,
-      "auctionAboveCenter": true
+      "auctionAboveCenter": true,
+      "bidRangeMinMan": 400,
+      "bidRangeMaxMan": 448.9,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": false
     },
     {
       "rowIndex": 109,
@@ -3806,7 +4240,11 @@
       "repairHistoryLabel": "あり",
       "centerErrorMan": 15.9,
       "inRange": false,
-      "auctionAboveCenter": true
+      "auctionAboveCenter": true,
+      "bidRangeMinMan": 30,
+      "bidRangeMaxMan": 42.9,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 110,
@@ -3841,7 +4279,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": 11,
       "inRange": true,
-      "auctionAboveCenter": true
+      "auctionAboveCenter": true,
+      "bidRangeMinMan": 28.1,
+      "bidRangeMaxMan": 37.1,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 111,
@@ -3876,7 +4318,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": -35,
       "inRange": false,
-      "auctionAboveCenter": false
+      "auctionAboveCenter": false,
+      "bidRangeMinMan": 40,
+      "bidRangeMaxMan": 67.5,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 112,
@@ -3911,7 +4357,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": 138.8,
       "inRange": false,
-      "auctionAboveCenter": true
+      "auctionAboveCenter": true,
+      "bidRangeMinMan": 500,
+      "bidRangeMaxMan": 845.8,
+      "aiCenterInBidRange": true,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 113,
@@ -3946,7 +4396,11 @@
       "repairHistoryLabel": "あり",
       "centerErrorMan": -7,
       "inRange": true,
-      "auctionAboveCenter": false
+      "auctionAboveCenter": false,
+      "bidRangeMinMan": 10,
+      "bidRangeMaxMan": 20.5,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 114,
@@ -3981,7 +4435,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": -9,
       "inRange": false,
-      "auctionAboveCenter": false
+      "auctionAboveCenter": false,
+      "bidRangeMinMan": 1,
+      "bidRangeMaxMan": 5,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": false
     },
     {
       "rowIndex": 115,
@@ -4016,7 +4474,11 @@
       "repairHistoryLabel": "あり",
       "centerErrorMan": -10,
       "inRange": true,
-      "auctionAboveCenter": false
+      "auctionAboveCenter": false,
+      "bidRangeMinMan": 35,
+      "bidRangeMaxMan": 55,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 116,
@@ -4051,7 +4513,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": 6,
       "inRange": true,
-      "auctionAboveCenter": true
+      "auctionAboveCenter": true,
+      "bidRangeMinMan": 10,
+      "bidRangeMaxMan": 18,
+      "aiCenterInBidRange": true,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 117,
@@ -4086,7 +4552,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": -5.7,
       "inRange": true,
-      "auctionAboveCenter": false
+      "auctionAboveCenter": false,
+      "bidRangeMinMan": 14.3,
+      "bidRangeMaxMan": 24.3,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 118,
@@ -4121,7 +4591,11 @@
       "repairHistoryLabel": "あり",
       "centerErrorMan": -10,
       "inRange": true,
-      "auctionAboveCenter": false
+      "auctionAboveCenter": false,
+      "bidRangeMinMan": 8,
+      "bidRangeMaxMan": 18,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 119,
@@ -4156,7 +4630,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": -5,
       "inRange": true,
-      "auctionAboveCenter": false
+      "auctionAboveCenter": false,
+      "bidRangeMinMan": 95,
+      "bidRangeMaxMan": 115.5,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 120,
@@ -4191,7 +4669,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": 16.9,
       "inRange": true,
-      "auctionAboveCenter": true
+      "auctionAboveCenter": true,
+      "bidRangeMinMan": 200,
+      "bidRangeMaxMan": 266.9,
+      "aiCenterInBidRange": true,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 121,
@@ -4226,7 +4708,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": 283.8,
       "inRange": false,
-      "auctionAboveCenter": true
+      "auctionAboveCenter": true,
+      "bidRangeMinMan": 528.8,
+      "bidRangeMaxMan": 568.8,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": false
     },
     {
       "rowIndex": 122,
@@ -4261,7 +4747,11 @@
       "repairHistoryLabel": "あり",
       "centerErrorMan": -19,
       "inRange": false,
-      "auctionAboveCenter": false
+      "auctionAboveCenter": false,
+      "bidRangeMinMan": 21,
+      "bidRangeMaxMan": 37.5,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": false
     },
     {
       "rowIndex": 123,
@@ -4296,7 +4786,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": 55.8,
       "inRange": false,
-      "auctionAboveCenter": true
+      "auctionAboveCenter": true,
+      "bidRangeMinMan": 27,
+      "bidRangeMaxMan": 302.8,
+      "aiCenterInBidRange": true,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 124,
@@ -4331,7 +4825,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": -50,
       "inRange": false,
-      "auctionAboveCenter": false
+      "auctionAboveCenter": false,
+      "bidRangeMinMan": 15,
+      "bidRangeMaxMan": 53.9,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": false
     },
     {
       "rowIndex": 125,
@@ -4366,7 +4864,11 @@
       "repairHistoryLabel": "あり",
       "centerErrorMan": -2,
       "inRange": true,
-      "auctionAboveCenter": false
+      "auctionAboveCenter": false,
+      "bidRangeMinMan": 15,
+      "bidRangeMaxMan": 23,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 126,
@@ -4401,7 +4903,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": -19.4,
       "inRange": true,
-      "auctionAboveCenter": false
+      "auctionAboveCenter": false,
+      "bidRangeMinMan": 150,
+      "bidRangeMaxMan": 277.6,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 127,
@@ -4436,7 +4942,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": -37.8,
       "inRange": false,
-      "auctionAboveCenter": false
+      "auctionAboveCenter": false,
+      "bidRangeMinMan": 150,
+      "bidRangeMaxMan": 244.2,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": false
     },
     {
       "rowIndex": 128,
@@ -4471,7 +4981,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": 12,
       "inRange": true,
-      "auctionAboveCenter": true
+      "auctionAboveCenter": true,
+      "bidRangeMinMan": 28,
+      "bidRangeMaxMan": 148,
+      "aiCenterInBidRange": true,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 129,
@@ -4506,7 +5020,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": -8.7,
       "inRange": true,
-      "auctionAboveCenter": false
+      "auctionAboveCenter": false,
+      "bidRangeMinMan": 10,
+      "bidRangeMaxMan": 19,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 130,
@@ -4541,7 +5059,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": 1.3,
       "inRange": true,
-      "auctionAboveCenter": true
+      "auctionAboveCenter": true,
+      "bidRangeMinMan": 4,
+      "bidRangeMaxMan": 15.3,
+      "aiCenterInBidRange": true,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 131,
@@ -4576,7 +5098,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": 30,
       "inRange": false,
-      "auctionAboveCenter": true
+      "auctionAboveCenter": true,
+      "bidRangeMinMan": 30,
+      "bidRangeMaxMan": 60,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 132,
@@ -4611,7 +5137,11 @@
       "repairHistoryLabel": "あり",
       "centerErrorMan": -2,
       "inRange": true,
-      "auctionAboveCenter": false
+      "auctionAboveCenter": false,
+      "bidRangeMinMan": 0,
+      "bidRangeMaxMan": 14,
+      "aiCenterInBidRange": true,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 133,
@@ -4646,7 +5176,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": 3,
       "inRange": true,
-      "auctionAboveCenter": true
+      "auctionAboveCenter": true,
+      "bidRangeMinMan": 1,
+      "bidRangeMaxMan": 12.5,
+      "aiCenterInBidRange": true,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 134,
@@ -4681,7 +5215,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": -10,
       "inRange": true,
-      "auctionAboveCenter": false
+      "auctionAboveCenter": false,
+      "bidRangeMinMan": 9,
+      "bidRangeMaxMan": 20,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 135,
@@ -4716,7 +5254,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": -6.5,
       "inRange": true,
-      "auctionAboveCenter": false
+      "auctionAboveCenter": false,
+      "bidRangeMinMan": 8.8,
+      "bidRangeMaxMan": 15,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 136,
@@ -4751,7 +5293,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": -21,
       "inRange": false,
-      "auctionAboveCenter": false
+      "auctionAboveCenter": false,
+      "bidRangeMinMan": 0.5,
+      "bidRangeMaxMan": 7,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": false
     },
     {
       "rowIndex": 137,
@@ -4786,7 +5332,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": 139,
       "inRange": false,
-      "auctionAboveCenter": true
+      "auctionAboveCenter": true,
+      "bidRangeMinMan": 215.5,
+      "bidRangeMaxMan": 259.5,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": false
     },
     {
       "rowIndex": 138,
@@ -4821,7 +5371,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": -13.5,
       "inRange": true,
-      "auctionAboveCenter": false
+      "auctionAboveCenter": false,
+      "bidRangeMinMan": 70,
+      "bidRangeMaxMan": 98.7,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 139,
@@ -4856,7 +5410,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": 60.5,
       "inRange": false,
-      "auctionAboveCenter": true
+      "auctionAboveCenter": true,
+      "bidRangeMinMan": 170,
+      "bidRangeMaxMan": 200.5,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": false
     },
     {
       "rowIndex": 140,
@@ -4891,7 +5449,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": -3,
       "inRange": true,
-      "auctionAboveCenter": false
+      "auctionAboveCenter": false,
+      "bidRangeMinMan": 4,
+      "bidRangeMaxMan": 11,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 141,
@@ -4926,7 +5488,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": 25,
       "inRange": false,
-      "auctionAboveCenter": true
+      "auctionAboveCenter": true,
+      "bidRangeMinMan": 150.5,
+      "bidRangeMaxMan": 180,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 142,
@@ -4961,7 +5527,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": 20,
       "inRange": true,
-      "auctionAboveCenter": true
+      "auctionAboveCenter": true,
+      "bidRangeMinMan": 124,
+      "bidRangeMaxMan": 192.8,
+      "aiCenterInBidRange": true,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 143,
@@ -4996,7 +5566,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": 18,
       "inRange": true,
-      "auctionAboveCenter": true
+      "auctionAboveCenter": true,
+      "bidRangeMinMan": 95,
+      "bidRangeMaxMan": 120.5,
+      "aiCenterInBidRange": true,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 144,
@@ -5031,7 +5605,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": -44,
       "inRange": false,
-      "auctionAboveCenter": false
+      "auctionAboveCenter": false,
+      "bidRangeMinMan": 8.8,
+      "bidRangeMaxMan": 36,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": false
     },
     {
       "rowIndex": 145,
@@ -5066,7 +5644,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": 0,
       "inRange": true,
-      "auctionAboveCenter": false
+      "auctionAboveCenter": false,
+      "bidRangeMinMan": 3,
+      "bidRangeMaxMan": 15.5,
+      "aiCenterInBidRange": true,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 146,
@@ -5101,7 +5683,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": -2.7,
       "inRange": true,
-      "auctionAboveCenter": false
+      "auctionAboveCenter": false,
+      "bidRangeMinMan": 1,
+      "bidRangeMaxMan": 3.8,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 147,
@@ -5136,7 +5722,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": -23,
       "inRange": false,
-      "auctionAboveCenter": false
+      "auctionAboveCenter": false,
+      "bidRangeMinMan": 1.5,
+      "bidRangeMaxMan": 17,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": false
     },
     {
       "rowIndex": 148,
@@ -5171,7 +5761,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": -8,
       "inRange": true,
-      "auctionAboveCenter": false
+      "auctionAboveCenter": false,
+      "bidRangeMinMan": 42.9,
+      "bidRangeMaxMan": 50,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 149,
@@ -5206,7 +5800,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": 22,
       "inRange": true,
-      "auctionAboveCenter": true
+      "auctionAboveCenter": true,
+      "bidRangeMinMan": 70,
+      "bidRangeMaxMan": 150,
+      "aiCenterInBidRange": true,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 150,
@@ -5241,7 +5839,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": 92,
       "inRange": false,
-      "auctionAboveCenter": true
+      "auctionAboveCenter": true,
+      "bidRangeMinMan": 230,
+      "bidRangeMaxMan": 270,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": false
     },
     {
       "rowIndex": 151,
@@ -5276,7 +5878,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": 58.6,
       "inRange": false,
-      "auctionAboveCenter": true
+      "auctionAboveCenter": true,
+      "bidRangeMinMan": 235,
+      "bidRangeMaxMan": 270.6,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 152,
@@ -5311,7 +5917,11 @@
       "repairHistoryLabel": "あり",
       "centerErrorMan": 38.2,
       "inRange": false,
-      "auctionAboveCenter": true
+      "auctionAboveCenter": true,
+      "bidRangeMinMan": 100,
+      "bidRangeMaxMan": 156.2,
+      "aiCenterInBidRange": true,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 153,
@@ -5346,7 +5956,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": 15.5,
       "inRange": true,
-      "auctionAboveCenter": true
+      "auctionAboveCenter": true,
+      "bidRangeMinMan": 20,
+      "bidRangeMaxMan": 45,
+      "aiCenterInBidRange": true,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 154,
@@ -5381,7 +5995,11 @@
       "repairHistoryLabel": "あり",
       "centerErrorMan": 5,
       "inRange": true,
-      "auctionAboveCenter": true
+      "auctionAboveCenter": true,
+      "bidRangeMinMan": 5,
+      "bidRangeMaxMan": 40,
+      "aiCenterInBidRange": true,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 155,
@@ -5416,7 +6034,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": 6.5,
       "inRange": true,
-      "auctionAboveCenter": true
+      "auctionAboveCenter": true,
+      "bidRangeMinMan": 12,
+      "bidRangeMaxMan": 20,
+      "aiCenterInBidRange": true,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 156,
@@ -5451,7 +6073,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": 5,
       "inRange": true,
-      "auctionAboveCenter": true
+      "auctionAboveCenter": true,
+      "bidRangeMinMan": 8,
+      "bidRangeMaxMan": 45,
+      "aiCenterInBidRange": true,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 157,
@@ -5486,7 +6112,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": -11.7,
       "inRange": true,
-      "auctionAboveCenter": false
+      "auctionAboveCenter": false,
+      "bidRangeMinMan": 30,
+      "bidRangeMaxMan": 50.5,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 158,
@@ -5521,7 +6151,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": -3.5,
       "inRange": true,
-      "auctionAboveCenter": false
+      "auctionAboveCenter": false,
+      "bidRangeMinMan": 6,
+      "bidRangeMaxMan": 15.5,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 159,
@@ -5556,7 +6190,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": 5,
       "inRange": true,
-      "auctionAboveCenter": true
+      "auctionAboveCenter": true,
+      "bidRangeMinMan": 15,
+      "bidRangeMaxMan": 22,
+      "aiCenterInBidRange": true,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 160,
@@ -5591,7 +6229,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": -7.5,
       "inRange": true,
-      "auctionAboveCenter": false
+      "auctionAboveCenter": false,
+      "bidRangeMinMan": 11,
+      "bidRangeMaxMan": 18.5,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 161,
@@ -5626,7 +6268,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": -13,
       "inRange": true,
-      "auctionAboveCenter": false
+      "auctionAboveCenter": false,
+      "bidRangeMinMan": 25,
+      "bidRangeMaxMan": 39.7,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 162,
@@ -5661,7 +6307,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": -50,
       "inRange": false,
-      "auctionAboveCenter": false
+      "auctionAboveCenter": false,
+      "bidRangeMinMan": 120,
+      "bidRangeMaxMan": 155.5,
+      "aiCenterInBidRange": true,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 163,
@@ -5696,7 +6346,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": -0.6,
       "inRange": true,
-      "auctionAboveCenter": false
+      "auctionAboveCenter": false,
+      "bidRangeMinMan": 60,
+      "bidRangeMaxMan": 75.4,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 164,
@@ -5731,7 +6385,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": -10,
       "inRange": true,
-      "auctionAboveCenter": false
+      "auctionAboveCenter": false,
+      "bidRangeMinMan": 81.4,
+      "bidRangeMaxMan": 115,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 165,
@@ -5766,7 +6424,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": -29.5,
       "inRange": false,
-      "auctionAboveCenter": false
+      "auctionAboveCenter": false,
+      "bidRangeMinMan": 17.8,
+      "bidRangeMaxMan": 21,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": false
     },
     {
       "rowIndex": 166,
@@ -5801,7 +6463,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": -56.2,
       "inRange": false,
-      "auctionAboveCenter": false
+      "auctionAboveCenter": false,
+      "bidRangeMinMan": 60,
+      "bidRangeMaxMan": 113.8,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": false
     },
     {
       "rowIndex": 167,
@@ -5836,7 +6502,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": 53.5,
       "inRange": false,
-      "auctionAboveCenter": true
+      "auctionAboveCenter": true,
+      "bidRangeMinMan": 215,
+      "bidRangeMaxMan": 258.5,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 168,
@@ -5871,7 +6541,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": 7.3,
       "inRange": false,
-      "auctionAboveCenter": true
+      "auctionAboveCenter": true,
+      "bidRangeMinMan": 5,
+      "bidRangeMaxMan": 15.2,
+      "aiCenterInBidRange": true,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 169,
@@ -5906,7 +6580,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": -0.5,
       "inRange": true,
-      "auctionAboveCenter": false
+      "auctionAboveCenter": false,
+      "bidRangeMinMan": 2,
+      "bidRangeMaxMan": 15.5,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 170,
@@ -5920,7 +6598,11 @@
       "ok": false,
       "error": "make / model / mileageKm が不足または不正です",
       "accidentHistoryLabel": "なし",
-      "repairHistoryLabel": "なし"
+      "repairHistoryLabel": "なし",
+      "bidRangeMinMan": 60,
+      "bidRangeMaxMan": 75.8,
+      "aiCenterInBidRange": null,
+      "aiRangeOverlapsBidRange": null
     },
     {
       "rowIndex": 171,
@@ -5955,7 +6637,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": 2,
       "inRange": true,
-      "auctionAboveCenter": true
+      "auctionAboveCenter": true,
+      "bidRangeMinMan": 9.1,
+      "bidRangeMaxMan": 70.5,
+      "aiCenterInBidRange": true,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 172,
@@ -5990,7 +6676,11 @@
       "repairHistoryLabel": "あり",
       "centerErrorMan": 65,
       "inRange": false,
-      "auctionAboveCenter": true
+      "auctionAboveCenter": true,
+      "bidRangeMinMan": 320,
+      "bidRangeMaxMan": 402.8,
+      "aiCenterInBidRange": true,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 173,
@@ -6025,7 +6715,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": -2,
       "inRange": true,
-      "auctionAboveCenter": false
+      "auctionAboveCenter": false,
+      "bidRangeMinMan": 1,
+      "bidRangeMaxMan": 16.6,
+      "aiCenterInBidRange": true,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 174,
@@ -6060,7 +6754,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": -7,
       "inRange": false,
-      "auctionAboveCenter": false
+      "auctionAboveCenter": false,
+      "bidRangeMinMan": 1,
+      "bidRangeMaxMan": 15.8,
+      "aiCenterInBidRange": true,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 175,
@@ -6095,7 +6793,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": -1,
       "inRange": true,
-      "auctionAboveCenter": false
+      "auctionAboveCenter": false,
+      "bidRangeMinMan": 2,
+      "bidRangeMaxMan": 14,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 176,
@@ -6130,7 +6832,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": -8.1,
       "inRange": true,
-      "auctionAboveCenter": false
+      "auctionAboveCenter": false,
+      "bidRangeMinMan": 90,
+      "bidRangeMaxMan": 103.9,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 177,
@@ -6165,7 +6871,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": 142,
       "inRange": false,
-      "auctionAboveCenter": true
+      "auctionAboveCenter": true,
+      "bidRangeMinMan": 100,
+      "bidRangeMaxMan": 730,
+      "aiCenterInBidRange": true,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 178,
@@ -6200,7 +6910,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": 38,
       "inRange": false,
-      "auctionAboveCenter": true
+      "auctionAboveCenter": true,
+      "bidRangeMinMan": 120.5,
+      "bidRangeMaxMan": 165,
+      "aiCenterInBidRange": true,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 179,
@@ -6235,7 +6949,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": 18.2,
       "inRange": true,
-      "auctionAboveCenter": true
+      "auctionAboveCenter": true,
+      "bidRangeMinMan": 105,
+      "bidRangeMaxMan": 135,
+      "aiCenterInBidRange": true,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 180,
@@ -6270,7 +6988,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": 78,
       "inRange": false,
-      "auctionAboveCenter": true
+      "auctionAboveCenter": true,
+      "bidRangeMinMan": 90,
+      "bidRangeMaxMan": 153.8,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": false
     },
     {
       "rowIndex": 181,
@@ -6305,7 +7027,11 @@
       "repairHistoryLabel": "あり",
       "centerErrorMan": -19.5,
       "inRange": false,
-      "auctionAboveCenter": false
+      "auctionAboveCenter": false,
+      "bidRangeMinMan": 1,
+      "bidRangeMaxMan": 8.5,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": false
     },
     {
       "rowIndex": 182,
@@ -6340,7 +7066,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": 6,
       "inRange": true,
-      "auctionAboveCenter": true
+      "auctionAboveCenter": true,
+      "bidRangeMinMan": 20,
+      "bidRangeMaxMan": 35,
+      "aiCenterInBidRange": true,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 183,
@@ -6375,7 +7105,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": 4.8,
       "inRange": true,
-      "auctionAboveCenter": true
+      "auctionAboveCenter": true,
+      "bidRangeMinMan": 40,
+      "bidRangeMaxMan": 76.5,
+      "aiCenterInBidRange": true,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 184,
@@ -6410,7 +7144,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": -26,
       "inRange": false,
-      "auctionAboveCenter": false
+      "auctionAboveCenter": false,
+      "bidRangeMinMan": 45,
+      "bidRangeMaxMan": 71.9,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 185,
@@ -6445,7 +7183,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": 23.5,
       "inRange": false,
-      "auctionAboveCenter": true
+      "auctionAboveCenter": true,
+      "bidRangeMinMan": 15,
+      "bidRangeMaxMan": 60,
+      "aiCenterInBidRange": true,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 186,
@@ -6480,7 +7222,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": -3.1,
       "inRange": true,
-      "auctionAboveCenter": false
+      "auctionAboveCenter": false,
+      "bidRangeMinMan": 23,
+      "bidRangeMaxMan": 46.9,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 187,
@@ -6515,7 +7261,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": -16.8,
       "inRange": true,
-      "auctionAboveCenter": false
+      "auctionAboveCenter": false,
+      "bidRangeMinMan": 70,
+      "bidRangeMaxMan": 107.9,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 188,
@@ -6550,7 +7300,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": -22,
       "inRange": true,
-      "auctionAboveCenter": false
+      "auctionAboveCenter": false,
+      "bidRangeMinMan": 20,
+      "bidRangeMaxMan": 73.5,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 189,
@@ -6585,7 +7339,11 @@
       "repairHistoryLabel": "あり",
       "centerErrorMan": -17,
       "inRange": false,
-      "auctionAboveCenter": false
+      "auctionAboveCenter": false,
+      "bidRangeMinMan": 3,
+      "bidRangeMaxMan": 11,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": false
     },
     {
       "rowIndex": 190,
@@ -6620,7 +7378,11 @@
       "repairHistoryLabel": "あり",
       "centerErrorMan": 47,
       "inRange": false,
-      "auctionAboveCenter": true
+      "auctionAboveCenter": true,
+      "bidRangeMinMan": 100,
+      "bidRangeMaxMan": 308.8,
+      "aiCenterInBidRange": true,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 191,
@@ -6655,7 +7417,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": -2,
       "inRange": true,
-      "auctionAboveCenter": false
+      "auctionAboveCenter": false,
+      "bidRangeMinMan": 18,
+      "bidRangeMaxMan": 27,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 192,
@@ -6690,7 +7456,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": -2.2,
       "inRange": true,
-      "auctionAboveCenter": false
+      "auctionAboveCenter": false,
+      "bidRangeMinMan": 0.5,
+      "bidRangeMaxMan": 3.8,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 193,
@@ -6725,7 +7495,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": 120.5,
       "inRange": false,
-      "auctionAboveCenter": true
+      "auctionAboveCenter": true,
+      "bidRangeMinMan": 298.1,
+      "bidRangeMaxMan": 330.5,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": false
     },
     {
       "rowIndex": 194,
@@ -6760,7 +7534,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": 6.1,
       "inRange": true,
-      "auctionAboveCenter": true
+      "auctionAboveCenter": true,
+      "bidRangeMinMan": 100,
+      "bidRangeMaxMan": 126.8,
+      "aiCenterInBidRange": true,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 195,
@@ -6795,7 +7573,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": -29.2,
       "inRange": true,
-      "auctionAboveCenter": false
+      "auctionAboveCenter": false,
+      "bidRangeMinMan": 89,
+      "bidRangeMaxMan": 157.8,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 196,
@@ -6830,7 +7612,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": -2.1,
       "inRange": true,
-      "auctionAboveCenter": false
+      "auctionAboveCenter": false,
+      "bidRangeMinMan": 2,
+      "bidRangeMaxMan": 3.9,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 197,
@@ -6865,7 +7651,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": -3.5,
       "inRange": true,
-      "auctionAboveCenter": false
+      "auctionAboveCenter": false,
+      "bidRangeMinMan": 10,
+      "bidRangeMaxMan": 15.5,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 198,
@@ -6900,7 +7690,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": 8.9,
       "inRange": true,
-      "auctionAboveCenter": true
+      "auctionAboveCenter": true,
+      "bidRangeMinMan": 24,
+      "bidRangeMaxMan": 36.9,
+      "aiCenterInBidRange": true,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 199,
@@ -6935,7 +7729,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": -17.4,
       "inRange": false,
-      "auctionAboveCenter": false
+      "auctionAboveCenter": false,
+      "bidRangeMinMan": 25,
+      "bidRangeMaxMan": 33.1,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": false
     },
     {
       "rowIndex": 200,
@@ -6970,7 +7768,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": 48.5,
       "inRange": false,
-      "auctionAboveCenter": true
+      "auctionAboveCenter": true,
+      "bidRangeMinMan": 180,
+      "bidRangeMaxMan": 246.5,
+      "aiCenterInBidRange": true,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 201,
@@ -7005,7 +7807,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": 12.6,
       "inRange": true,
-      "auctionAboveCenter": true
+      "auctionAboveCenter": true,
+      "bidRangeMinMan": 120,
+      "bidRangeMaxMan": 131.8,
+      "aiCenterInBidRange": true,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 202,
@@ -7040,7 +7846,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": 22,
       "inRange": false,
-      "auctionAboveCenter": true
+      "auctionAboveCenter": true,
+      "bidRangeMinMan": 5,
+      "bidRangeMaxMan": 58.9,
+      "aiCenterInBidRange": true,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 203,
@@ -7075,7 +7885,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": 92.8,
       "inRange": false,
-      "auctionAboveCenter": true
+      "auctionAboveCenter": true,
+      "bidRangeMinMan": 68,
+      "bidRangeMaxMan": 138.8,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": false
     },
     {
       "rowIndex": 204,
@@ -7110,7 +7924,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": -5.5,
       "inRange": true,
-      "auctionAboveCenter": false
+      "auctionAboveCenter": false,
+      "bidRangeMinMan": 30,
+      "bidRangeMaxMan": 45.1,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 205,
@@ -7145,7 +7963,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": -22,
       "inRange": false,
-      "auctionAboveCenter": false
+      "auctionAboveCenter": false,
+      "bidRangeMinMan": 25,
+      "bidRangeMaxMan": 52,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": false
     },
     {
       "rowIndex": 206,
@@ -7180,7 +8002,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": -10.1,
       "inRange": false,
-      "auctionAboveCenter": false
+      "auctionAboveCenter": false,
+      "bidRangeMinMan": 5,
+      "bidRangeMaxMan": 18.5,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 207,
@@ -7215,7 +8041,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": 62,
       "inRange": false,
-      "auctionAboveCenter": true
+      "auctionAboveCenter": true,
+      "bidRangeMinMan": 170,
+      "bidRangeMaxMan": 227.5,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 208,
@@ -7250,7 +8080,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": 65,
       "inRange": false,
-      "auctionAboveCenter": true
+      "auctionAboveCenter": true,
+      "bidRangeMinMan": 150,
+      "bidRangeMaxMan": 320,
+      "aiCenterInBidRange": true,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 209,
@@ -7285,7 +8119,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": 388.8,
       "inRange": false,
-      "auctionAboveCenter": true
+      "auctionAboveCenter": true,
+      "bidRangeMinMan": 640,
+      "bidRangeMaxMan": 828.8,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": false
     },
     {
       "rowIndex": 210,
@@ -7320,7 +8158,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": -11,
       "inRange": true,
-      "auctionAboveCenter": false
+      "auctionAboveCenter": false,
+      "bidRangeMinMan": 15,
+      "bidRangeMaxMan": 32.8,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 211,
@@ -7355,7 +8197,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": -45,
       "inRange": true,
-      "auctionAboveCenter": false
+      "auctionAboveCenter": false,
+      "bidRangeMinMan": 232,
+      "bidRangeMaxMan": 309.9,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 212,
@@ -7390,7 +8236,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": 0.2,
       "inRange": true,
-      "auctionAboveCenter": true
+      "auctionAboveCenter": true,
+      "bidRangeMinMan": 2,
+      "bidRangeMaxMan": 6.2,
+      "aiCenterInBidRange": true,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 213,
@@ -7425,7 +8275,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": 50,
       "inRange": false,
-      "auctionAboveCenter": true
+      "auctionAboveCenter": true,
+      "bidRangeMinMan": 200,
+      "bidRangeMaxMan": 280,
+      "aiCenterInBidRange": true,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 214,
@@ -7460,7 +8314,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": 114,
       "inRange": false,
-      "auctionAboveCenter": true
+      "auctionAboveCenter": true,
+      "bidRangeMinMan": 277,
+      "bidRangeMaxMan": 323.8,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": false
     },
     {
       "rowIndex": 215,
@@ -7495,7 +8353,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": -4.5,
       "inRange": true,
-      "auctionAboveCenter": false
+      "auctionAboveCenter": false,
+      "bidRangeMinMan": 15,
+      "bidRangeMaxMan": 22.9,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 216,
@@ -7530,7 +8392,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": -13.9,
       "inRange": false,
-      "auctionAboveCenter": false
+      "auctionAboveCenter": false,
+      "bidRangeMinMan": 5,
+      "bidRangeMaxMan": 13.1,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": false
     },
     {
       "rowIndex": 217,
@@ -7565,7 +8431,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": 91.1,
       "inRange": false,
-      "auctionAboveCenter": true
+      "auctionAboveCenter": true,
+      "bidRangeMinMan": 300,
+      "bidRangeMaxMan": 376.1,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 218,
@@ -7600,7 +8470,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": -8.5,
       "inRange": false,
-      "auctionAboveCenter": false
+      "auctionAboveCenter": false,
+      "bidRangeMinMan": 1,
+      "bidRangeMaxMan": 5.2,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": false
     },
     {
       "rowIndex": 219,
@@ -7635,7 +8509,11 @@
       "repairHistoryLabel": "あり",
       "centerErrorMan": -17,
       "inRange": false,
-      "auctionAboveCenter": false
+      "auctionAboveCenter": false,
+      "bidRangeMinMan": 20,
+      "bidRangeMaxMan": 32.5,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": false
     },
     {
       "rowIndex": 220,
@@ -7670,7 +8548,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": 4,
       "inRange": true,
-      "auctionAboveCenter": true
+      "auctionAboveCenter": true,
+      "bidRangeMinMan": 0,
+      "bidRangeMaxMan": 12,
+      "aiCenterInBidRange": true,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 221,
@@ -7705,7 +8587,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": -12.2,
       "inRange": false,
-      "auctionAboveCenter": false
+      "auctionAboveCenter": false,
+      "bidRangeMinMan": 7,
+      "bidRangeMaxMan": 15.8,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": false
     },
     {
       "rowIndex": 222,
@@ -7740,7 +8626,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": 120,
       "inRange": false,
-      "auctionAboveCenter": true
+      "auctionAboveCenter": true,
+      "bidRangeMinMan": 100,
+      "bidRangeMaxMan": 285.8,
+      "aiCenterInBidRange": true,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 223,
@@ -7775,7 +8665,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": 83,
       "inRange": false,
-      "auctionAboveCenter": true
+      "auctionAboveCenter": true,
+      "bidRangeMinMan": 88,
+      "bidRangeMaxMan": 118,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 224,
@@ -7810,7 +8704,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": -30,
       "inRange": true,
-      "auctionAboveCenter": false
+      "auctionAboveCenter": false,
+      "bidRangeMinMan": 60,
+      "bidRangeMaxMan": 101.9,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 225,
@@ -7845,7 +8743,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": -7,
       "inRange": true,
-      "auctionAboveCenter": false
+      "auctionAboveCenter": false,
+      "bidRangeMinMan": 38,
+      "bidRangeMaxMan": 70.9,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 226,
@@ -7880,7 +8782,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": 19,
       "inRange": false,
-      "auctionAboveCenter": true
+      "auctionAboveCenter": true,
+      "bidRangeMinMan": 16,
+      "bidRangeMaxMan": 32,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 227,
@@ -7915,7 +8821,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": -0.9,
       "inRange": true,
-      "auctionAboveCenter": false
+      "auctionAboveCenter": false,
+      "bidRangeMinMan": 1,
+      "bidRangeMaxMan": 2.2,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 228,
@@ -7950,7 +8860,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": 10.9,
       "inRange": true,
-      "auctionAboveCenter": true
+      "auctionAboveCenter": true,
+      "bidRangeMinMan": 70,
+      "bidRangeMaxMan": 103.8,
+      "aiCenterInBidRange": true,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 229,
@@ -7985,7 +8899,11 @@
       "repairHistoryLabel": "あり",
       "centerErrorMan": 10.9,
       "inRange": true,
-      "auctionAboveCenter": true
+      "auctionAboveCenter": true,
+      "bidRangeMinMan": 49,
+      "bidRangeMaxMan": 70.9,
+      "aiCenterInBidRange": true,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 230,
@@ -8020,7 +8938,11 @@
       "repairHistoryLabel": "あり",
       "centerErrorMan": 25.5,
       "inRange": false,
-      "auctionAboveCenter": true
+      "auctionAboveCenter": true,
+      "bidRangeMinMan": 15,
+      "bidRangeMaxMan": 55.5,
+      "aiCenterInBidRange": true,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 231,
@@ -8055,7 +8977,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": -12.2,
       "inRange": true,
-      "auctionAboveCenter": false
+      "auctionAboveCenter": false,
+      "bidRangeMinMan": 505,
+      "bidRangeMaxMan": 607.8,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 232,
@@ -8090,7 +9016,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": 35.9,
       "inRange": false,
-      "auctionAboveCenter": true
+      "auctionAboveCenter": true,
+      "bidRangeMinMan": 205.5,
+      "bidRangeMaxMan": 240.9,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 233,
@@ -8125,7 +9055,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": -121.5,
       "inRange": false,
-      "auctionAboveCenter": false
+      "auctionAboveCenter": false,
+      "bidRangeMinMan": 100,
+      "bidRangeMaxMan": 568.8,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": false
     },
     {
       "rowIndex": 234,
@@ -8160,7 +9094,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": 6,
       "inRange": true,
-      "auctionAboveCenter": true
+      "auctionAboveCenter": true,
+      "bidRangeMinMan": 30,
+      "bidRangeMaxMan": 45.3,
+      "aiCenterInBidRange": true,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 235,
@@ -8195,7 +9133,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": 52.5,
       "inRange": true,
-      "auctionAboveCenter": true
+      "auctionAboveCenter": true,
+      "bidRangeMinMan": 270,
+      "bidRangeMaxMan": 339.5,
+      "aiCenterInBidRange": true,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 236,
@@ -8230,7 +9172,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": -31,
       "inRange": false,
-      "auctionAboveCenter": false
+      "auctionAboveCenter": false,
+      "bidRangeMinMan": 10,
+      "bidRangeMaxMan": 20,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": false
     },
     {
       "rowIndex": 237,
@@ -8265,7 +9211,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": 2,
       "inRange": true,
-      "auctionAboveCenter": true
+      "auctionAboveCenter": true,
+      "bidRangeMinMan": 32,
+      "bidRangeMaxMan": 40,
+      "aiCenterInBidRange": true,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 238,
@@ -8300,7 +9250,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": 95,
       "inRange": false,
-      "auctionAboveCenter": true
+      "auctionAboveCenter": true,
+      "bidRangeMinMan": 110,
+      "bidRangeMaxMan": 215,
+      "aiCenterInBidRange": true,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 239,
@@ -8335,7 +9289,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": 46,
       "inRange": false,
-      "auctionAboveCenter": true
+      "auctionAboveCenter": true,
+      "bidRangeMinMan": 220,
+      "bidRangeMaxMan": 261.5,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 240,
@@ -8370,7 +9328,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": 0,
       "inRange": true,
-      "auctionAboveCenter": false
+      "auctionAboveCenter": false,
+      "bidRangeMinMan": 3,
+      "bidRangeMaxMan": 17,
+      "aiCenterInBidRange": true,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 241,
@@ -8405,7 +9367,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": 12.2,
       "inRange": true,
-      "auctionAboveCenter": true
+      "auctionAboveCenter": true,
+      "bidRangeMinMan": 20,
+      "bidRangeMaxMan": 42.2,
+      "aiCenterInBidRange": true,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 242,
@@ -8440,7 +9406,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": -3,
       "inRange": true,
-      "auctionAboveCenter": false
+      "auctionAboveCenter": false,
+      "bidRangeMinMan": 0.5,
+      "bidRangeMaxMan": 6.5,
+      "aiCenterInBidRange": true,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 243,
@@ -8475,7 +9445,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": -2,
       "inRange": true,
-      "auctionAboveCenter": false
+      "auctionAboveCenter": false,
+      "bidRangeMinMan": 1.5,
+      "bidRangeMaxMan": 6,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 244,
@@ -8510,7 +9484,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": 2.1,
       "inRange": true,
-      "auctionAboveCenter": true
+      "auctionAboveCenter": true,
+      "bidRangeMinMan": 0.5,
+      "bidRangeMaxMan": 10.1,
+      "aiCenterInBidRange": true,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 245,
@@ -8545,7 +9523,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": 25.9,
       "inRange": true,
-      "auctionAboveCenter": true
+      "auctionAboveCenter": true,
+      "bidRangeMinMan": 51,
+      "bidRangeMaxMan": 109.9,
+      "aiCenterInBidRange": true,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 246,
@@ -8580,7 +9562,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": -7.2,
       "inRange": true,
-      "auctionAboveCenter": false
+      "auctionAboveCenter": false,
+      "bidRangeMinMan": 11,
+      "bidRangeMaxMan": 20,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 247,
@@ -8615,7 +9601,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": 15.5,
       "inRange": false,
-      "auctionAboveCenter": true
+      "auctionAboveCenter": true,
+      "bidRangeMinMan": 20,
+      "bidRangeMaxMan": 31,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 248,
@@ -8650,7 +9640,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": 0,
       "inRange": true,
-      "auctionAboveCenter": false
+      "auctionAboveCenter": false,
+      "bidRangeMinMan": 0.5,
+      "bidRangeMaxMan": 3,
+      "aiCenterInBidRange": true,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 249,
@@ -8685,7 +9679,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": -7,
       "inRange": true,
-      "auctionAboveCenter": false
+      "auctionAboveCenter": false,
+      "bidRangeMinMan": 7,
+      "bidRangeMaxMan": 20.5,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 250,
@@ -8720,7 +9718,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": -2,
       "inRange": true,
-      "auctionAboveCenter": false
+      "auctionAboveCenter": false,
+      "bidRangeMinMan": 0.5,
+      "bidRangeMaxMan": 4,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 251,
@@ -8755,7 +9757,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": 45,
       "inRange": false,
-      "auctionAboveCenter": true
+      "auctionAboveCenter": true,
+      "bidRangeMinMan": 0,
+      "bidRangeMaxMan": 118.8,
+      "aiCenterInBidRange": true,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 252,
@@ -8790,7 +9796,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": -6,
       "inRange": true,
-      "auctionAboveCenter": false
+      "auctionAboveCenter": false,
+      "bidRangeMinMan": 2,
+      "bidRangeMaxMan": 10,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 253,
@@ -8825,7 +9835,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": -10.3,
       "inRange": false,
-      "auctionAboveCenter": false
+      "auctionAboveCenter": false,
+      "bidRangeMinMan": 8.8,
+      "bidRangeMaxMan": 16.8,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": false
     },
     {
       "rowIndex": 254,
@@ -8860,7 +9874,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": 0.5,
       "inRange": true,
-      "auctionAboveCenter": true
+      "auctionAboveCenter": true,
+      "bidRangeMinMan": 45,
+      "bidRangeMaxMan": 63,
+      "aiCenterInBidRange": true,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 255,
@@ -8895,7 +9913,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": -18.2,
       "inRange": false,
-      "auctionAboveCenter": false
+      "auctionAboveCenter": false,
+      "bidRangeMinMan": 15,
+      "bidRangeMaxMan": 21,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": false
     },
     {
       "rowIndex": 256,
@@ -8930,7 +9952,11 @@
       "repairHistoryLabel": "あり",
       "centerErrorMan": -2.5,
       "inRange": true,
-      "auctionAboveCenter": false
+      "auctionAboveCenter": false,
+      "bidRangeMinMan": 28,
+      "bidRangeMaxMan": 70,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 257,
@@ -8965,7 +9991,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": -2,
       "inRange": true,
-      "auctionAboveCenter": false
+      "auctionAboveCenter": false,
+      "bidRangeMinMan": 1,
+      "bidRangeMaxMan": 5,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 258,
@@ -9000,7 +10030,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": 7,
       "inRange": true,
-      "auctionAboveCenter": true
+      "auctionAboveCenter": true,
+      "bidRangeMinMan": 25.8,
+      "bidRangeMaxMan": 37,
+      "aiCenterInBidRange": true,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 259,
@@ -9035,7 +10069,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": 3.2,
       "inRange": true,
-      "auctionAboveCenter": true
+      "auctionAboveCenter": true,
+      "bidRangeMinMan": 6,
+      "bidRangeMaxMan": 18.2,
+      "aiCenterInBidRange": true,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 260,
@@ -9070,7 +10108,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": -19,
       "inRange": true,
-      "auctionAboveCenter": false
+      "auctionAboveCenter": false,
+      "bidRangeMinMan": 155,
+      "bidRangeMaxMan": 191.1,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 261,
@@ -9105,7 +10147,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": 63.8,
       "inRange": false,
-      "auctionAboveCenter": true
+      "auctionAboveCenter": true,
+      "bidRangeMinMan": 240,
+      "bidRangeMaxMan": 288.8,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 262,
@@ -9140,7 +10186,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": -25,
       "inRange": false,
-      "auctionAboveCenter": false
+      "auctionAboveCenter": false,
+      "bidRangeMinMan": 50,
+      "bidRangeMaxMan": 103,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": false
     },
     {
       "rowIndex": 263,
@@ -9175,7 +10225,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": -12.5,
       "inRange": true,
-      "auctionAboveCenter": false
+      "auctionAboveCenter": false,
+      "bidRangeMinMan": 110,
+      "bidRangeMaxMan": 177.5,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 264,
@@ -9210,7 +10264,11 @@
       "repairHistoryLabel": "あり",
       "centerErrorMan": 1.5,
       "inRange": true,
-      "auctionAboveCenter": true
+      "auctionAboveCenter": true,
+      "bidRangeMinMan": 10,
+      "bidRangeMaxMan": 20,
+      "aiCenterInBidRange": true,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 265,
@@ -9245,7 +10303,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": -22,
       "inRange": false,
-      "auctionAboveCenter": false
+      "auctionAboveCenter": false,
+      "bidRangeMinMan": 18.3,
+      "bidRangeMaxMan": 45,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 266,
@@ -9280,7 +10342,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": -8,
       "inRange": true,
-      "auctionAboveCenter": false
+      "auctionAboveCenter": false,
+      "bidRangeMinMan": 8,
+      "bidRangeMaxMan": 20,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 267,
@@ -9315,7 +10381,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": 14,
       "inRange": false,
-      "auctionAboveCenter": true
+      "auctionAboveCenter": true,
+      "bidRangeMinMan": 13,
+      "bidRangeMaxMan": 26,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 268,
@@ -9350,7 +10420,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": 1.1,
       "inRange": true,
-      "auctionAboveCenter": true
+      "auctionAboveCenter": true,
+      "bidRangeMinMan": 4,
+      "bidRangeMaxMan": 18.5,
+      "aiCenterInBidRange": true,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 269,
@@ -9385,7 +10459,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": 3,
       "inRange": true,
-      "auctionAboveCenter": true
+      "auctionAboveCenter": true,
+      "bidRangeMinMan": 100,
+      "bidRangeMaxMan": 169.4,
+      "aiCenterInBidRange": true,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 270,
@@ -9420,7 +10498,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": 15,
       "inRange": true,
-      "auctionAboveCenter": true
+      "auctionAboveCenter": true,
+      "bidRangeMinMan": 100,
+      "bidRangeMaxMan": 135.5,
+      "aiCenterInBidRange": true,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 271,
@@ -9455,7 +10537,11 @@
       "repairHistoryLabel": "あり",
       "centerErrorMan": -6,
       "inRange": true,
-      "auctionAboveCenter": false
+      "auctionAboveCenter": false,
+      "bidRangeMinMan": 2,
+      "bidRangeMaxMan": 8,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 272,
@@ -9490,7 +10576,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": 15.3,
       "inRange": true,
-      "auctionAboveCenter": true
+      "auctionAboveCenter": true,
+      "bidRangeMinMan": 110,
+      "bidRangeMaxMan": 123.5,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 273,
@@ -9525,7 +10615,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": 28,
       "inRange": true,
-      "auctionAboveCenter": true
+      "auctionAboveCenter": true,
+      "bidRangeMinMan": 192,
+      "bidRangeMaxMan": 217.5,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 274,
@@ -9560,7 +10654,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": 19,
       "inRange": true,
-      "auctionAboveCenter": true
+      "auctionAboveCenter": true,
+      "bidRangeMinMan": 200,
+      "bidRangeMaxMan": 311,
+      "aiCenterInBidRange": true,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 275,
@@ -9595,7 +10693,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": -10,
       "inRange": true,
-      "auctionAboveCenter": false
+      "auctionAboveCenter": false,
+      "bidRangeMinMan": 100,
+      "bidRangeMaxMan": 285,
+      "aiCenterInBidRange": true,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 276,
@@ -9630,7 +10732,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": -19.6,
       "inRange": false,
-      "auctionAboveCenter": false
+      "auctionAboveCenter": false,
+      "bidRangeMinMan": 31,
+      "bidRangeMaxMan": 49.9,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": false
     },
     {
       "rowIndex": 277,
@@ -9665,7 +10771,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": -7,
       "inRange": true,
-      "auctionAboveCenter": false
+      "auctionAboveCenter": false,
+      "bidRangeMinMan": 10,
+      "bidRangeMaxMan": 23.5,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 278,
@@ -9700,7 +10810,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": 66,
       "inRange": false,
-      "auctionAboveCenter": true
+      "auctionAboveCenter": true,
+      "bidRangeMinMan": 250,
+      "bidRangeMaxMan": 355.5,
+      "aiCenterInBidRange": true,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 279,
@@ -9735,7 +10849,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": -9.7,
       "inRange": true,
-      "auctionAboveCenter": false
+      "auctionAboveCenter": false,
+      "bidRangeMinMan": 27,
+      "bidRangeMaxMan": 50,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 280,
@@ -9770,7 +10888,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": 0,
       "inRange": true,
-      "auctionAboveCenter": false
+      "auctionAboveCenter": false,
+      "bidRangeMinMan": 228,
+      "bidRangeMaxMan": 363,
+      "aiCenterInBidRange": true,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 281,
@@ -9805,7 +10927,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": -3.2,
       "inRange": false,
-      "auctionAboveCenter": false
+      "auctionAboveCenter": false,
+      "bidRangeMinMan": 1,
+      "bidRangeMaxMan": 3,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 282,
@@ -9840,7 +10966,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": -8.7,
       "inRange": true,
-      "auctionAboveCenter": false
+      "auctionAboveCenter": false,
+      "bidRangeMinMan": 13,
+      "bidRangeMaxMan": 30,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 283,
@@ -9875,7 +11005,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": 1,
       "inRange": true,
-      "auctionAboveCenter": true
+      "auctionAboveCenter": true,
+      "bidRangeMinMan": 20,
+      "bidRangeMaxMan": 40,
+      "aiCenterInBidRange": true,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 284,
@@ -9910,7 +11044,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": -3,
       "inRange": true,
-      "auctionAboveCenter": false
+      "auctionAboveCenter": false,
+      "bidRangeMinMan": 18,
+      "bidRangeMaxMan": 37.8,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 285,
@@ -9945,7 +11083,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": 50.9,
       "inRange": false,
-      "auctionAboveCenter": true
+      "auctionAboveCenter": true,
+      "bidRangeMinMan": 110,
+      "bidRangeMaxMan": 205.9,
+      "aiCenterInBidRange": true,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 286,
@@ -9980,7 +11122,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": 22,
       "inRange": true,
-      "auctionAboveCenter": true
+      "auctionAboveCenter": true,
+      "bidRangeMinMan": 110,
+      "bidRangeMaxMan": 135.8,
+      "aiCenterInBidRange": true,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 287,
@@ -10015,7 +11161,11 @@
       "repairHistoryLabel": "あり",
       "centerErrorMan": 28,
       "inRange": true,
-      "auctionAboveCenter": true
+      "auctionAboveCenter": true,
+      "bidRangeMinMan": 100,
+      "bidRangeMaxMan": 450,
+      "aiCenterInBidRange": true,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 288,
@@ -10050,7 +11200,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": -10.6,
       "inRange": true,
-      "auctionAboveCenter": false
+      "auctionAboveCenter": false,
+      "bidRangeMinMan": 35,
+      "bidRangeMaxMan": 57.5,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 289,
@@ -10085,7 +11239,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": -5,
       "inRange": true,
-      "auctionAboveCenter": false
+      "auctionAboveCenter": false,
+      "bidRangeMinMan": 3,
+      "bidRangeMaxMan": 8,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 290,
@@ -10120,7 +11278,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": 0.2,
       "inRange": true,
-      "auctionAboveCenter": true
+      "auctionAboveCenter": true,
+      "bidRangeMinMan": 1,
+      "bidRangeMaxMan": 4.2,
+      "aiCenterInBidRange": true,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 291,
@@ -10155,7 +11317,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": -20,
       "inRange": false,
-      "auctionAboveCenter": false
+      "auctionAboveCenter": false,
+      "bidRangeMinMan": 5,
+      "bidRangeMaxMan": 14,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": false
     },
     {
       "rowIndex": 292,
@@ -10190,7 +11356,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": -7,
       "inRange": true,
-      "auctionAboveCenter": false
+      "auctionAboveCenter": false,
+      "bidRangeMinMan": 10,
+      "bidRangeMaxMan": 20,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 293,
@@ -10225,7 +11395,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": -35,
       "inRange": false,
-      "auctionAboveCenter": false
+      "auctionAboveCenter": false,
+      "bidRangeMinMan": 50,
+      "bidRangeMaxMan": 75,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": false
     },
     {
       "rowIndex": 294,
@@ -10260,7 +11434,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": 28,
       "inRange": false,
-      "auctionAboveCenter": true
+      "auctionAboveCenter": true,
+      "bidRangeMinMan": 150,
+      "bidRangeMaxMan": 190.1,
+      "aiCenterInBidRange": true,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 295,
@@ -10295,7 +11473,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": -0.4,
       "inRange": true,
-      "auctionAboveCenter": false
+      "auctionAboveCenter": false,
+      "bidRangeMinMan": 3.4,
+      "bidRangeMaxMan": 5.6,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 296,
@@ -10330,7 +11512,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": -13,
       "inRange": true,
-      "auctionAboveCenter": false
+      "auctionAboveCenter": false,
+      "bidRangeMinMan": 100,
+      "bidRangeMaxMan": 281.5,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 297,
@@ -10365,7 +11551,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": -18,
       "inRange": false,
-      "auctionAboveCenter": false
+      "auctionAboveCenter": false,
+      "bidRangeMinMan": 18,
+      "bidRangeMaxMan": 32.9,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": false
     },
     {
       "rowIndex": 298,
@@ -10400,7 +11590,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": 0.8,
       "inRange": true,
-      "auctionAboveCenter": true
+      "auctionAboveCenter": true,
+      "bidRangeMinMan": 5,
+      "bidRangeMaxMan": 8.8,
+      "aiCenterInBidRange": true,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 299,
@@ -10435,7 +11629,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": 40,
       "inRange": false,
-      "auctionAboveCenter": true
+      "auctionAboveCenter": true,
+      "bidRangeMinMan": 150,
+      "bidRangeMaxMan": 211.5,
+      "aiCenterInBidRange": true,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 300,
@@ -10470,7 +11668,11 @@
       "repairHistoryLabel": "あり",
       "centerErrorMan": -8,
       "inRange": true,
-      "auctionAboveCenter": false
+      "auctionAboveCenter": false,
+      "bidRangeMinMan": 10,
+      "bidRangeMaxMan": 20,
+      "aiCenterInBidRange": false,
+      "aiRangeOverlapsBidRange": true
     },
     {
       "rowIndex": 301,
@@ -10505,7 +11707,11 @@
       "repairHistoryLabel": "なし",
       "centerErrorMan": 81.5,
       "inRange": false,
-      "auctionAboveCenter": true
+      "auctionAboveCenter": true,
+      "bidRangeMinMan": 110,
+      "bidRangeMaxMan": 202.8,
+      "aiCenterInBidRange": true,
+      "aiRangeOverlapsBidRange": true
     }
   ]
 }

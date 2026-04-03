@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "next lint",
     "validate:v2-csv": "NODE_OPTIONS='--no-deprecation' tsx scripts/validate-v2-csv.ts",
-    "validate:v2-csv:katix": "NODE_OPTIONS='--no-deprecation' tsx scripts/validate-v2-csv.ts \"scripts/katix-data - export.csv\" --config scripts/katix-export-validate.config.json"
+    "validate:v2-csv:katix": "NODE_OPTIONS='--no-deprecation' tsx scripts/validate-v2-csv.ts \"scripts/katix-data - export.csv\" --config scripts/katix-export-validate.config.json",
+    "enrich:validate-v2-bids": "NODE_OPTIONS='--no-deprecation' tsx scripts/enrich-validate-v2-report-bids.ts"
   },
   "dependencies": {
     "next": "^15.0.0",
