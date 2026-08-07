@@ -20,7 +20,7 @@ export default function HomePage() {
         </p>
       </div>
 
-      <div className="grid gap-4 sm:grid-cols-2">
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         <Link
           href="/estimate"
           className="rounded-2xl border border-gray-100 bg-white p-6 shadow-card transition hover:shadow-card-hover"
@@ -41,10 +41,20 @@ export default function HomePage() {
           </p>
           <p className="mt-4 text-sm font-semibold text-katix">はじめる →</p>
         </Link>
+        <Link
+          href="/estimate/v3"
+          className="rounded-2xl border border-gray-100 bg-white p-6 shadow-card transition hover:shadow-card-hover"
+        >
+          <p className="text-sm font-semibold text-gray-900">買取相場を推定（v3）</p>
+          <p className="mt-2 text-sm leading-relaxed text-gray-600">
+            メーカー・車種・年式・グレード・色・走行距離と設問情報から、Web検索付きで買取価格を推定します。
+          </p>
+          <p className="mt-4 text-sm font-semibold text-katix">はじめる →</p>
+        </Link>
       </div>
 
       <p className="text-center text-[10px] leading-relaxed text-gray-400">
-        ※テキスト入力の画面は検証用の構成を含みます（v1 / v2 の表記は開発時の整理用です）。
+        ※テキスト入力の画面は検証用の構成を含みます（v1 / v2 / v3 の表記は開発時の整理用です）。
       </p>
     </div>
   );

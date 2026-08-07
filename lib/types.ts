@@ -102,3 +102,51 @@ export interface EstimateV2ApiError {
 }
 
 export type EstimateV2ApiResponse = EstimateV2ApiSuccess | EstimateV2ApiError;
+
+/** v3: 買取相場推定（低価格検算・設問反映対応）の自信度 */
+export type EstimateV3Confidence = "high" | "medium" | "low";
+
+/** v3: 低価格帯の市場タイプ */
+export type EstimateV3LowPriceMarketType =
+  | "normal_floor"
+  | "export_demand"
+  | "commercial_demand"
+  | "rare"
+  | "unclear";
+
+/**
+ * v3: テキスト入力＋設問フォームから買取相場を推定した結果
+ */
+export interface EstimateV3Result {
+  /** 買取価格（万円・整数） */
+  buyPrice: number;
+  /** 買取価格レンジ（万円・整数） */
+  priceRange: {
+    min: number;
+    max: number;
+  };
+  /** 小売参考価格（万円・整数） */
+  retailPrice: number;
+  confidence: EstimateV3Confidence;
+  /** 低価格帯の追加検算を行ったか */
+  lowPriceCheckUsed: boolean;
+  lowPriceMarketType: EstimateV3LowPriceMarketType;
+  /** 設問フォームの状態差を中心価格へ反映したか */
+  conditionAdjustmentUsed: boolean;
+  /** 推定根拠（100〜150字目安、固有名詞なし） */
+  reasoning: string;
+  /** プロンプト仕様により常に空配列 */
+  sources: [];
+}
+
+export interface EstimateV3ApiSuccess {
+  ok: true;
+  result: EstimateV3Result;
+}
+
+export interface EstimateV3ApiError {
+  ok: false;
+  error: string;
+}
+
+export type EstimateV3ApiResponse = EstimateV3ApiSuccess | EstimateV3ApiError;

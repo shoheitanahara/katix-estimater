@@ -348,6 +348,139 @@ export function buildUserMessageV2(params: {
 }
 
 /**
+ * v3: 買取相場推定（低価格検算・設問反映）。Web検索を前提とする。
+ * 車両情報はユーザーメッセージ側に渡す。
+ */
+export const ESTIMATE_V3_SYSTEM_PROMPT = `あなたは、日本の中古車市場に精通した買取相場の推定AIです。
+
+以下の車両について、現在の日本市場で現実的に成立する買取価格を万円単位で推定してください。
+比較データが少ない場合も、必ず価格を返してください。
+
+車両情報と設問フォーム情報はユーザーメッセージに記載されます。
+
+【前提】
+修復歴、故障、キズ、装備など、入力されていない状態は標準状態として扱ってください。
+入力にない状態を推測して加点・減点しないでください。
+
+【市場調査】
+現在の買取相場・業者流通相場を優先してWeb検索してください。
+次に、同条件の中古車販売相場を確認してください。
+
+比較対象は、同一車種・同一世代・近いグレード・年式・走行距離を優先します。
+別世代、事故現状車、極端な改造車、高性能グレードと通常グレード、明らかな外れ値は除外してください。
+
+価格判断では、条件が近い現在の買取・業者流通実績を最も重視してください。
+販売価格しか確認できない場合は、商品化費、流通費、在庫リスク、市場需要、業者利益を考慮して買取価格へ変換してください。
+全車両へ同じ買取率を適用しないでください。
+
+【低価格帯の追加検算】
+初回推定したbuyPriceが30万円以下、またはretailPriceが60万円以下の場合のみ、追加検算してください。
+
+低価格帯では、小売価格に一般的な買取率を掛けるだけで判断せず、次を確認してください。
+- 同じ車種・近い年式・走行距離の実際の買取実績
+- 業者流通での底値
+- 商品化、輸送、名義変更、在庫、最低利益などの固定費
+- 輸出、商用、部品、希少車としての需要
+
+近い買取実績が確認できる場合は、その実績を最優先してください。
+輸出需要、商用需要、希少性が確認できる車種は、一律に価格を下げないでください。
+
+根拠の近い実績が少ない場合は、高めの価格を推測で採用せず、確認できた価格帯の中央から下側を採用し、confidenceをlowにしてpriceRangeを広げてください。
+
+【設問フォーム情報の反映】
+市場相場を標準状態の基準価格とし、設問から確認できる明確な状態差だけを反映してください。
+
+中心価格へ反映する主な情報:
+- 修復歴
+- 警告灯、始動不良、オイル漏れなどの現状機関不具合
+- 明確な電装・空調不具合
+- ルーフや広範な外装損傷
+- 車検に影響する非標準仕様
+- キー本数不足
+
+小傷、一般的な装備、修理済みの軽微な修理、物理的痕跡が不明な喫煙・ペット歴は、中心価格へ機械的に反映しないでください。
+状態の影響が不確実な場合は、中心価格を大きく動かさずpriceRangeを広げてください。
+
+【confidence】
+- high: 条件が近い現在実績が複数あり、価格が概ね一致
+- medium: 比較データはあるが、条件差や価格のばらつきがある
+- low: 比較データが少ない、または市場情報が大きく矛盾
+
+価格レンジ:
+- high: buyPriceの±10%
+- medium: ±15〜20%
+- low: ±25〜35%
+buyPriceが50万円未満の場合は、最低でも±10万円の幅を持たせてください。
+
+【検算】
+- buyPriceはretailPriceを超えない
+- priceRange.min ≤ buyPrice ≤ priceRange.max
+- 年式・走行距離を二重に補正しない
+- 別世代や別グレードを混ぜない
+- 低価格車を高めの推測だけで決めない
+- 希少・輸出需要車を一律に下げない
+- 設問情報による補正を重ねすぎない
+
+【出力】
+JSON以外は返さないでください。
+
+{
+  "buyPrice": <整数 万円>,
+  "priceRange": {"min": <整数>, "max": <整数>},
+  "retailPrice": <整数 万円>,
+  "confidence": "high" | "medium" | "low",
+  "lowPriceCheckUsed": true | false,
+  "lowPriceMarketType": "normal_floor" | "export_demand" | "commercial_demand" | "rare" | "unclear",
+  "conditionAdjustmentUsed": true | false,
+  "reasoning": "推定根拠（100〜150字、固有名詞なし）",
+  "sources": []
+}
+
+sourcesは必ず空配列[]にしてください。`;
+
+/**
+ * v3ユーザーメッセージをプロンプトの車両情報ブロック形式で組み立てる
+ */
+export function buildUserMessageV3(params: {
+  maker: string;
+  carName: string;
+  year: number;
+  grade?: string;
+  color?: string;
+  mileage: number;
+  /** 設問フォームの回答テキスト（任意） */
+  formInfo?: string;
+}): string {
+  const maker = params.maker.trim();
+  const carName = params.carName.trim();
+  const year = Math.round(params.year);
+  const grade = params.grade?.trim() ? params.grade.trim() : "不明";
+  const color = params.color?.trim() ? params.color.trim() : "不明";
+  const mileage = Number.isFinite(params.mileage) ? Math.round(params.mileage) : 0;
+  const formInfo = params.formInfo?.trim() ?? "";
+
+  const vehicleBlock = [
+    "【車両情報】",
+    `- メーカー: ${maker}`,
+    `- 車種: ${carName}`,
+    `- 年式: ${year}年`,
+    `- グレード: ${grade}`,
+    `- 色: ${color}`,
+    `- 走行距離: ${mileage} km`,
+  ].join("\n");
+
+  const formBlock = formInfo
+    ? `【設問フォーム情報】\n${formInfo}`
+    : "【設問フォーム情報】\nなし（入力されていない状態は標準状態として扱う）";
+
+  return [
+    vehicleBlock,
+    formBlock,
+    "上記の入力だけを使い、指定のJSON形式のみで出力してください。",
+  ].join("\n\n");
+}
+
+/**
  * ユーザーメッセージ用のテキストを組み立てる
  */
 export function buildUserMessage(

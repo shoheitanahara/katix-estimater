@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 
 function shouldHideHeader(pathname: string | null): boolean {
   if (!pathname) return false;
-  return pathname.startsWith("/estimate/v2");
+  return pathname.startsWith("/estimate/v2") || pathname.startsWith("/estimate/v3");
 }
 
 export function SiteHeader() {

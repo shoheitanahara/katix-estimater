@@ -1,11 +1,21 @@
 import OpenAI from "openai";
-import type { EstimateResult, EstimateV2Result } from "./types";
+import type {
+  EstimateResult,
+  EstimateV2Result,
+  EstimateV3Confidence,
+  EstimateV3LowPriceMarketType,
+  EstimateV3Result,
+} from "./types";
 import {
   ESTIMATE_SYSTEM_PROMPT,
   ESTIMATE_V2_SYSTEM_PROMPT,
+  ESTIMATE_V3_SYSTEM_PROMPT,
   buildUserMessage,
   buildUserMessageV2,
+  buildUserMessageV3,
 } from "./prompt";
+
+const ESTIMATE_V3_MODEL = "gpt-5.6-sol";
 
 /** サーバー側でのみ使用。APIキーはクライアントに露出しない */
 function getOpenAIClient(): OpenAI {
@@ -155,6 +165,81 @@ export async function getEstimateV2FromOpenAI(params: {
       message.includes("Missing or invalid assumption") ||
       message.includes("Missing or invalid input") ||
       message.includes("Missing or invalid auctionExpected") ||
+      message.includes("AI response is not");
+    if (!retryable) throw err;
+    return await createResponse({ retry: true });
+  }
+}
+
+/**
+ * v3: メーカー/車種/年式/走行距離等から買取相場を推定（Web検索あり）
+ */
+export async function getEstimateV3FromOpenAI(params: {
+  maker: string;
+  carName: string;
+  year: number;
+  grade?: string;
+  color?: string;
+  mileage: number;
+  formInfo?: string;
+}): Promise<EstimateV3Result> {
+  const openai = getOpenAIClient();
+  const userText = buildUserMessageV3(params);
+
+  const createResponse = async (opts?: { retry: boolean }): Promise<EstimateV3Result> => {
+    let response: unknown;
+    try {
+      response = await openai.responses.create({
+        model: ESTIMATE_V3_MODEL,
+        // Web検索＋推論のため余裕を持たせる
+        max_output_tokens: 4000,
+        tools: [{ type: "web_search_preview" }],
+        tool_choice: "auto",
+        input: [
+          {
+            role: "system",
+            content: [
+              { type: "input_text", text: ESTIMATE_V3_SYSTEM_PROMPT },
+              ...(opts?.retry
+                ? [
+                    {
+                      type: "input_text" as const,
+                      text: "前回はJSONが壊れました。必ず指定のJSONのみを返してください（説明文や前後の文章は禁止）。sourcesは必ず空配列[]にしてください。",
+                    },
+                  ]
+                : []),
+            ],
+          },
+          {
+            role: "user",
+            content: [{ type: "input_text", text: userText }],
+          },
+        ],
+      });
+    } catch (error) {
+      const message = error instanceof Error ? error.message : String(error);
+      if (message.includes("model") || message.includes(ESTIMATE_V3_MODEL) || message.includes("gpt-5.6")) {
+        throw new Error(
+          `${ESTIMATE_V3_MODEL} の利用に失敗しました。APIアカウントのモデルアクセス権限を確認してください。`
+        );
+      }
+      throw error;
+    }
+
+    const content = extractResponseText(response);
+    if (!content) {
+      throw new Error("OpenAI returned empty content");
+    }
+    return parseAndValidateEstimateV3Result(content);
+  };
+
+  try {
+    return await createResponse({ retry: false });
+  } catch (err) {
+    const message = err instanceof Error ? err.message : String(err);
+    const retryable =
+      message.includes("not valid JSON") ||
+      message.includes("Missing or invalid") ||
       message.includes("AI response is not");
     if (!retryable) throw err;
     return await createResponse({ retry: true });
@@ -365,5 +450,117 @@ function parseAndValidateEstimateV2Result(raw: string): EstimateV2Result {
     },
     comment: ensureString(o.comment, ""),
     ...(confidencePercent !== undefined && { confidencePercent }),
+  };
+}
+
+const V3_CONFIDENCE_VALUES: EstimateV3Confidence[] = ["high", "medium", "low"];
+const V3_LOW_PRICE_MARKET_TYPES: EstimateV3LowPriceMarketType[] = [
+  "normal_floor",
+  "export_demand",
+  "commercial_demand",
+  "rare",
+  "unclear",
+];
+
+/**
+ * モデル出力から最初のJSONオブジェクトを取り出す（前後の説明文やコードフェンスに耐える）
+ */
+function extractJsonObjectText(raw: string): string {
+  const trimmed = raw.trim();
+  const fenced = trimmed.match(/```(?:json)?\s*([\s\S]*?)```/i);
+  const candidate = fenced?.[1]?.trim() ?? trimmed;
+  if (candidate.startsWith("{") && candidate.endsWith("}")) return candidate;
+
+  const start = candidate.indexOf("{");
+  const end = candidate.lastIndexOf("}");
+  if (start >= 0 && end > start) {
+    return candidate.slice(start, end + 1);
+  }
+  return candidate;
+}
+
+function parseAndValidateEstimateV3Result(raw: string): EstimateV3Result {
+  let json: unknown;
+  try {
+    json = JSON.parse(extractJsonObjectText(raw));
+  } catch {
+    throw new Error("AI response is not valid JSON");
+  }
+  if (!json || typeof json !== "object") {
+    throw new Error("AI response is not an object");
+  }
+
+  const o = json as Record<string, unknown>;
+  const priceRange = o.priceRange as Record<string, unknown> | undefined;
+  if (!priceRange || typeof priceRange !== "object") {
+    throw new Error("Missing or invalid priceRange");
+  }
+
+  const toMan = (v: unknown, label: string): number => {
+    if (typeof v !== "number" || !Number.isFinite(v) || v < 0) {
+      throw new Error(`Missing or invalid ${label}`);
+    }
+    return Math.round(v);
+  };
+
+  let buyPrice = toMan(o.buyPrice, "buyPrice");
+  let retailPrice = toMan(o.retailPrice, "retailPrice");
+  let rangeMin = toMan(priceRange.min, "priceRange.min");
+  let rangeMax = toMan(priceRange.max, "priceRange.max");
+
+  // 検算: buyPrice は retailPrice を超えない
+  if (buyPrice > retailPrice) {
+    buyPrice = retailPrice;
+  }
+  // 検算: min ≤ buyPrice ≤ max（崩れていれば補正）
+  if (rangeMin > rangeMax) {
+    const tmp = rangeMin;
+    rangeMin = rangeMax;
+    rangeMax = tmp;
+  }
+  if (buyPrice < rangeMin) rangeMin = buyPrice;
+  if (buyPrice > rangeMax) rangeMax = buyPrice;
+
+  // 50万円未満は最低でも ±10万円の幅
+  if (buyPrice < 50) {
+    rangeMin = Math.min(rangeMin, Math.max(0, buyPrice - 10));
+    rangeMax = Math.max(rangeMax, buyPrice + 10);
+  }
+
+  const confidenceRaw = o.confidence;
+  if (typeof confidenceRaw !== "string" || !V3_CONFIDENCE_VALUES.includes(confidenceRaw as EstimateV3Confidence)) {
+    throw new Error("Missing or invalid confidence");
+  }
+  const confidence = confidenceRaw as EstimateV3Confidence;
+
+  const lowPriceMarketTypeRaw = o.lowPriceMarketType;
+  if (
+    typeof lowPriceMarketTypeRaw !== "string" ||
+    !V3_LOW_PRICE_MARKET_TYPES.includes(lowPriceMarketTypeRaw as EstimateV3LowPriceMarketType)
+  ) {
+    throw new Error("Missing or invalid lowPriceMarketType");
+  }
+  const lowPriceMarketType = lowPriceMarketTypeRaw as EstimateV3LowPriceMarketType;
+
+  if (typeof o.lowPriceCheckUsed !== "boolean") {
+    throw new Error("Missing or invalid lowPriceCheckUsed");
+  }
+  if (typeof o.conditionAdjustmentUsed !== "boolean") {
+    throw new Error("Missing or invalid conditionAdjustmentUsed");
+  }
+  if (typeof o.reasoning !== "string" || !o.reasoning.trim()) {
+    throw new Error("Missing or invalid reasoning");
+  }
+
+  return {
+    buyPrice,
+    priceRange: { min: rangeMin, max: rangeMax },
+    retailPrice,
+    confidence,
+    lowPriceCheckUsed: o.lowPriceCheckUsed,
+    lowPriceMarketType,
+    conditionAdjustmentUsed: o.conditionAdjustmentUsed,
+    reasoning: o.reasoning.trim(),
+    sources: [],
   };
 }
