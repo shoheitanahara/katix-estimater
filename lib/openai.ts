@@ -5,17 +5,25 @@ import type {
   EstimateV3Confidence,
   EstimateV3LowPriceMarketType,
   EstimateV3Result,
+  EstimateV4Confidence,
+  EstimateV4GradeBand,
+  EstimateV4LowPriceMarketType,
+  EstimateV4Result,
 } from "./types";
+import { buildOverallFocusBand, focusBandFromGradeInput } from "./estimate-v4-focus";
 import {
   ESTIMATE_SYSTEM_PROMPT,
   ESTIMATE_V2_SYSTEM_PROMPT,
   ESTIMATE_V3_SYSTEM_PROMPT,
+  ESTIMATE_V4_SYSTEM_PROMPT,
   buildUserMessage,
   buildUserMessageV2,
   buildUserMessageV3,
+  buildUserMessageV4,
 } from "./prompt";
 
 const ESTIMATE_V3_MODEL = "gpt-5.6-sol";
+const ESTIMATE_V4_MODEL = "gpt-6.1-sol";
 
 /** サーバー側でのみ使用。APIキーはクライアントに露出しない */
 function getOpenAIClient(): OpenAI {
@@ -453,8 +461,91 @@ function parseAndValidateEstimateV2Result(raw: string): EstimateV2Result {
   };
 }
 
+/**
+ * v4: メーカー/車種/年式/走行距離区分/色系から通常・最上位の買取相場を推定（Web検索あり）
+ */
+export async function getEstimateV4FromOpenAI(params: {
+  maker: string;
+  carName: string;
+  year: number;
+  mileageBand: string;
+  colorFamily: string;
+  originType: "domestic" | "import";
+  grade?: string;
+}): Promise<EstimateV4Result> {
+  const openai = getOpenAIClient();
+  const grade = params.grade?.trim() || undefined;
+  const userText = buildUserMessageV4({ ...params, grade });
+
+  const createResponse = async (opts?: { retry: boolean }): Promise<EstimateV4Result> => {
+    let response: unknown;
+    try {
+      response = await openai.responses.create({
+        model: ESTIMATE_V4_MODEL,
+        max_output_tokens: 4000,
+        tools: [{ type: "web_search_preview" }],
+        tool_choice: "auto",
+        input: [
+          {
+            role: "system",
+            content: [
+              { type: "input_text", text: ESTIMATE_V4_SYSTEM_PROMPT },
+              ...(opts?.retry
+                ? [
+                    {
+                      type: "input_text" as const,
+                      text: "前回はJSONが壊れました。必ず指定のJSONのみを返してください（説明文や前後の文章は禁止）。",
+                    },
+                  ]
+                : []),
+            ],
+          },
+          {
+            role: "user",
+            content: [{ type: "input_text", text: userText }],
+          },
+        ],
+      });
+    } catch (error) {
+      const message = error instanceof Error ? error.message : String(error);
+      if (message.includes("model") || message.includes(ESTIMATE_V4_MODEL) || message.includes("gpt-6.1")) {
+        throw new Error(
+          `${ESTIMATE_V4_MODEL} の利用に失敗しました。APIアカウントのモデルアクセス権限を確認してください。`
+        );
+      }
+      throw error;
+    }
+
+    const content = extractResponseText(response);
+    if (!content) {
+      throw new Error("OpenAI returned empty content");
+    }
+    return parseAndValidateEstimateV4Result(content, { grade });
+  };
+
+  try {
+    return await createResponse({ retry: false });
+  } catch (err) {
+    const message = err instanceof Error ? err.message : String(err);
+    const retryable =
+      message.includes("not valid JSON") ||
+      message.includes("Missing or invalid") ||
+      message.includes("AI response is not");
+    if (!retryable) throw err;
+    return await createResponse({ retry: true });
+  }
+}
+
 const V3_CONFIDENCE_VALUES: EstimateV3Confidence[] = ["high", "medium", "low"];
 const V3_LOW_PRICE_MARKET_TYPES: EstimateV3LowPriceMarketType[] = [
+  "normal_floor",
+  "export_demand",
+  "commercial_demand",
+  "rare",
+  "unclear",
+];
+const V4_CONFIDENCE_VALUES: EstimateV4Confidence[] = ["high", "medium", "low"];
+const V4_LOW_PRICE_MARKET_TYPES: EstimateV4LowPriceMarketType[] = [
   "normal_floor",
   "export_demand",
   "commercial_demand",
@@ -562,5 +653,156 @@ function parseAndValidateEstimateV3Result(raw: string): EstimateV3Result {
     conditionAdjustmentUsed: o.conditionAdjustmentUsed,
     reasoning: o.reasoning.trim(),
     sources: [],
+  };
+}
+
+/**
+ * 万円整数または null を正規化する
+ */
+function toNullableMan(v: unknown, label: string): number | null {
+  if (v === null) return null;
+  if (typeof v !== "number" || !Number.isFinite(v) || v < 0) {
+    throw new Error(`Missing or invalid ${label}`);
+  }
+  return Math.round(v);
+}
+
+/**
+ * グレード帯（通常／最上位）をパースし、価格整合性を補正する
+ */
+function parseEstimateV4GradeBand(raw: unknown, label: string): EstimateV4GradeBand {
+  if (!raw || typeof raw !== "object") {
+    throw new Error(`Missing or invalid ${label}`);
+  }
+  const band = raw as Record<string, unknown>;
+  let buyPrice = toNullableMan(band.buyPrice, `${label}.buyPrice`);
+  let retailPrice = toNullableMan(band.retailPrice, `${label}.retailPrice`);
+
+  let priceRange: { min: number; max: number } | null = null;
+  if (band.priceRange === null) {
+    priceRange = null;
+  } else if (band.priceRange && typeof band.priceRange === "object") {
+    const pr = band.priceRange as Record<string, unknown>;
+    let rangeMin = toNullableMan(pr.min, `${label}.priceRange.min`);
+    let rangeMax = toNullableMan(pr.max, `${label}.priceRange.max`);
+    if (rangeMin === null || rangeMax === null) {
+      throw new Error(`Missing or invalid ${label}.priceRange`);
+    }
+    if (rangeMin > rangeMax) {
+      const tmp = rangeMin;
+      rangeMin = rangeMax;
+      rangeMax = tmp;
+    }
+    priceRange = { min: rangeMin, max: rangeMax };
+  } else {
+    throw new Error(`Missing or invalid ${label}.priceRange`);
+  }
+
+  // buyPrice があるのに priceRange が無い／逆は不正
+  if ((buyPrice === null) !== (priceRange === null)) {
+    throw new Error(`Missing or invalid ${label} price fields`);
+  }
+
+  if (buyPrice !== null && retailPrice !== null && buyPrice > retailPrice) {
+    buyPrice = retailPrice;
+  }
+
+  // buyPrice がレンジ外なら最小限の整合だけ取る（幅の決め打ちはしない）
+  if (buyPrice !== null && priceRange) {
+    let { min: rangeMin, max: rangeMax } = priceRange;
+    if (buyPrice < rangeMin) rangeMin = buyPrice;
+    if (buyPrice > rangeMax) rangeMax = buyPrice;
+    priceRange = { min: rangeMin, max: rangeMax };
+  }
+
+  const gradesRaw = band.grades;
+  const grades = Array.isArray(gradesRaw)
+    ? gradesRaw.filter((x): x is string => typeof x === "string" && x.trim().length > 0).map((x) => x.trim())
+    : [];
+
+  return {
+    buyPrice,
+    priceRange,
+    retailPrice,
+    grades,
+  };
+}
+
+function parseAndValidateEstimateV4Result(
+  raw: string,
+  opts: { grade?: string }
+): EstimateV4Result {
+  const grade = opts.grade?.trim() || undefined;
+  let json: unknown;
+  try {
+    json = JSON.parse(extractJsonObjectText(raw));
+  } catch {
+    throw new Error("AI response is not valid JSON");
+  }
+  if (!json || typeof json !== "object") {
+    throw new Error("AI response is not an object");
+  }
+
+  const o = json as Record<string, unknown>;
+  const standard = parseEstimateV4GradeBand(o.standard, "standard");
+  const top = parseEstimateV4GradeBand(o.top, "top");
+
+  const confidenceRaw = o.confidence;
+  if (typeof confidenceRaw !== "string" || !V4_CONFIDENCE_VALUES.includes(confidenceRaw as EstimateV4Confidence)) {
+    throw new Error("Missing or invalid confidence");
+  }
+  const confidence = confidenceRaw as EstimateV4Confidence;
+
+  const lowPriceMarketTypeRaw = o.lowPriceMarketType;
+  if (
+    typeof lowPriceMarketTypeRaw !== "string" ||
+    !V4_LOW_PRICE_MARKET_TYPES.includes(lowPriceMarketTypeRaw as EstimateV4LowPriceMarketType)
+  ) {
+    throw new Error("Missing or invalid lowPriceMarketType");
+  }
+  const lowPriceMarketType = lowPriceMarketTypeRaw as EstimateV4LowPriceMarketType;
+
+  if (typeof o.lowPriceCheckUsed !== "boolean") {
+    throw new Error("Missing or invalid lowPriceCheckUsed");
+  }
+  if (typeof o.reasoning !== "string" || !o.reasoning.trim()) {
+    throw new Error("Missing or invalid reasoning");
+  }
+
+  const sourcesRaw = o.sources;
+  const sources: EstimateV4Result["sources"] = [];
+  if (Array.isArray(sourcesRaw)) {
+    for (const item of sourcesRaw) {
+      if (!item || typeof item !== "object") continue;
+      const s = item as Record<string, unknown>;
+      const sourceName = typeof s.sourceName === "string" ? s.sourceName.trim() : "";
+      const url = typeof s.url === "string" ? s.url.trim() : "";
+      const checkedData = typeof s.checkedData === "string" ? s.checkedData.trim() : "";
+      if (!sourceName || !url || !checkedData) continue;
+      sources.push({ sourceName, url, checkedData });
+    }
+  }
+
+  let focus: EstimateV4Result["focus"];
+  if (grade) {
+    const focusRaw = o.focus;
+    if (!focusRaw) {
+      throw new Error("Missing or invalid focus");
+    }
+    const focusBand = parseEstimateV4GradeBand(focusRaw, "focus");
+    focus = focusBandFromGradeInput(grade, focusBand);
+  } else {
+    focus = buildOverallFocusBand(standard, top);
+  }
+
+  return {
+    standard,
+    top,
+    focus,
+    confidence,
+    lowPriceCheckUsed: o.lowPriceCheckUsed,
+    lowPriceMarketType,
+    reasoning: o.reasoning.trim(),
+    sources,
   };
 }
